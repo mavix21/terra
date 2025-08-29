@@ -2,6 +2,7 @@ import { IconBrandGithub, IconRocket } from "@tabler/icons-react";
 
 import { Button } from "@terra/ui/components/button";
 
+import { DynamicWidget } from "@/lib/dynamic";
 import { ThemeSwitcher } from "@/shared/ui/theme-switcher";
 
 export default function HomePage() {
@@ -14,7 +15,10 @@ export default function HomePage() {
             <IconRocket className="size-6" />
             <span className="text-xl font-bold">Next.js Monorepo</span>
           </div>
-          <ThemeSwitcher />
+          <div className="flex items-center gap-2">
+            <DynamicWidget />
+            <ThemeSwitcher />
+          </div>
         </div>
       </header>
 
