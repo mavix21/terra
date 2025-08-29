@@ -8,7 +8,7 @@ createJiti(fileURLToPath(import.meta.url))("./env");
 /** @type {import("next").NextConfig} */
 const config = {
   /** Enables hot reloading for local packages without a build step */
-  transpilePackages: ["@terra/db", "@terra/ui"],
+  transpilePackages: ["@terra/ui"],
 
   // Silence warnings
   // https://github.com/WalletConnect/walletconnect-monorepo/issues/1908

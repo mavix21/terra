@@ -21,7 +21,6 @@
     "@tabler/icons-react": "^3.34.1",
     "@tanstack/react-query": "catalog:",
     "@terra/convex": "workspace:*",
-    "@terra/db": "workspace:*",
     "@terra/ui": "workspace:*",
     "next": "15.5.0",
     "next-intl": "^4.3.5",

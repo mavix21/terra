@@ -18,7 +18,7 @@
     "typecheck": "turbo run typecheck"
   },
   "devDependencies": {
-    "@ianvs/prettier-plugin-sort-imports": "^4.6.2",
+    "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
     "@terra/prettier-config": "workspace:*",
     "@turbo/gen": "^2.5.6",
     "@types/node": "catalog:",
