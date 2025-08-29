@@ -3,7 +3,7 @@ import createJiti from "jiti";
 import createNextIntlPlugin from "next-intl/plugin";
 
 // Import env files to validate at build time. Use jiti so we can load .ts files in here.
-createJiti(fileURLToPath(import.meta.url))("./src/env");
+createJiti(fileURLToPath(import.meta.url))("./env");
 
 /** @type {import("next").NextConfig} */
 const config = {
