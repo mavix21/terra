@@ -9,6 +9,8 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { routing } from "@/shared/i18n/routing";
 import { ThemeProvider } from "@/shared/ui/theme-provider";
 
+import DynamicProvider from "../_providers/dynamic-wrapper";
+
 const fontSans = Geist({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -44,7 +46,9 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <NextIntlClientProvider>{children}</NextIntlClientProvider>
+          <NextIntlClientProvider>
+            <DynamicProvider>{children}</DynamicProvider>
+          </NextIntlClientProvider>
         </ThemeProvider>
       </body>
     </html>
