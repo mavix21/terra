@@ -1,0 +1,54 @@
+{
+  "languages": {
+    "en": "Inglés",
+    "es": "Español"
+  },
+  "landing": {
+    "navigation": {
+      "features": "Características",
+      "solution": "Solución"
+    },
+    "header": {
+      "cta": {
+        "primary": "Empezar"
+      }
+    },
+    "hero": {
+      "title": "(TODO) Título",
+      "description": "(TODO) Descripción",
+      "cta": {
+        "primary": "Empieza ahora",
+        "secondary": "Saber más"
+      }
+    },
+    "features": {
+      "title": "(TODO) Feature 1",
+      "description": "(TODO) Descripción",
+      "items": {
+        "feature1": {
+          "title": "(TODO) Item 1",
+          "description": "(TODO) Descripción"
+        },
+        "feature2": {
+          "title": "(TODO) Item 2",
+          "description": "(TODO) Descripción"
+        },
+        "feature3": {
+          "title": "(TODO) Item 3",
+          "description": "(TODO) Descripción"
+        },
+        "feature4": {
+          "title": "(TODO) Item 4",
+          "description": "(TODO) Descripción"
+        },
+        "feature5": {
+          "title": "(TODO) Item 5",
+          "description": "(TODO) Descripción"
+        }
+      }
+    },
+    "footer": {
+      "copyright": "(TODO) Copyright"
+    }
+  }
+}

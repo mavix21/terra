@@ -1,0 +1,21 @@
+{
+  "name": "@myapp/convex",
+  "version": "0.0.0",
+  "description": "Convex backend",
+  "scripts": {
+    "dev": "convex dev",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "setup": "convex dev --until-success",
+    "typecheck": "tsc --noEmit"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "convex": "^1.26.1"
+  },
+  "devDependencies": {
+    "typescript": "catalog:"
+  },
+  "prettier": "@myapp/prettier-config"
+}
