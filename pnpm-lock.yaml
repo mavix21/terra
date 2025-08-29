@@ -69,15 +69,6 @@ importers:
 
   apps/web:
     dependencies:
-      '@terra/convex':
-        specifier: workspace:*
-        version: link:../../packages/convex
-      '@terra/db':
-        specifier: workspace:*
-        version: link:../../packages/db
-      '@terra/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
       '@t3-oss/env-nextjs':
         specifier: ^0.13.8
         version: 0.13.8(arktype@2.1.20)(typescript@5.9.2)(zod@3.25.67)
@@ -87,6 +78,15 @@ importers:
       '@tanstack/react-query':
         specifier: 'catalog:'
         version: 5.85.5(react@19.1.1)
+      '@terra/convex':
+        specifier: workspace:*
+        version: link:../../packages/convex
+      '@terra/db':
+        specifier: workspace:*
+        version: link:../../packages/db
+      '@terra/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       next:
         specifier: 15.5.0
         version: 15.5.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -355,15 +355,15 @@ importers:
         specifier: 'catalog:'
         version: 3.25.67
     devDependencies:
+      '@tailwindcss/postcss':
+        specifier: ^4.1.12
+        version: 4.1.12
       '@terra/eslint-config':
         specifier: workspace:*
         version: link:../../tooling/eslint
       '@terra/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/typescript
-      '@tailwindcss/postcss':
-        specifier: ^4.1.12
-        version: 4.1.12
       '@turbo/gen':
         specifier: ^2.5.6
         version: 2.5.6(@types/node@24.3.0)(typescript@5.9.2)
