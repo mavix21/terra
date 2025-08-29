@@ -1,9 +1,9 @@
 {
-  "extends": "@myapp/tsconfig/react-library.json",
+  "extends": "@terra/tsconfig/react-library.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@myapp/ui/*": ["./src/*"]
+      "@terra/ui/*": ["./src/*"]
     },
     "lib": ["dom", "DOM.Iterable"]
   },

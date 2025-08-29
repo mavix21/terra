@@ -10,8 +10,8 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@myapp/ui/components/dialog";
-import { cn } from "@myapp/ui/lib/utils";
+} from "@terra/ui/components/dialog";
+import { cn } from "@terra/ui/lib/utils";
 
 function Command({
   className,

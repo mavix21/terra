@@ -1,5 +1,5 @@
 {
-  "name": "@myapp/prettier-config",
+  "name": "@terra/prettier-config",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -17,9 +17,9 @@
     "prettier-plugin-tailwindcss": "^0.6.14"
   },
   "devDependencies": {
-    "@myapp/tsconfig": "workspace:*",
+    "@terra/tsconfig": "workspace:*",
     "@types/node": "catalog:",
     "typescript": "catalog:"
   },
-  "prettier": "@myapp/prettier-config"
+  "prettier": "@terra/prettier-config"
 }

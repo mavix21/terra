@@ -1,12 +1,12 @@
 {
-  "extends": "@myapp/tsconfig/nextjs.json",
+  "extends": "@terra/tsconfig/nextjs.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
       "@/shared/*": ["./app/_shared/*"],
       "@/pages/*": ["./app/_pages/*"],
-      "@myapp/ui/*": ["../../packages/ui/src/*"]
+      "@terra/ui/*": ["../../packages/ui/src/*"]
     },
     "plugins": [
       {

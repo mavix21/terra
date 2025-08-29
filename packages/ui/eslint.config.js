@@ -1,5 +1,5 @@
-import baseConfig from "@myapp/eslint-config/base";
-import reactConfig from "@myapp/eslint-config/react";
+import baseConfig from "@terra/eslint-config/base";
+import reactConfig from "@terra/eslint-config/react";
 
 /** @type {import('typescript-eslint').Config} */
 export default [

@@ -15,9 +15,9 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@myapp/convex": "workspace:*",
-    "@myapp/db": "workspace:*",
-    "@myapp/ui": "workspace:*",
+    "@terra/convex": "workspace:*",
+    "@terra/db": "workspace:*",
+    "@terra/ui": "workspace:*",
     "@t3-oss/env-nextjs": "^0.13.8",
     "@tabler/icons-react": "^3.34.1",
     "@tanstack/react-query": "catalog:",
@@ -32,8 +32,8 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@myapp/eslint-config": "workspace:*",
-    "@myapp/tsconfig": "workspace:*",
+    "@terra/eslint-config": "workspace:*",
+    "@terra/tsconfig": "workspace:*",
     "@types/node": "catalog:",
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
@@ -43,5 +43,5 @@
     "jiti": "^1.21.7",
     "typescript": "catalog:"
   },
-  "prettier": "@myapp/prettier-config"
+  "prettier": "@terra/prettier-config"
 }

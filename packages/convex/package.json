@@ -1,5 +1,5 @@
 {
-  "name": "@myapp/convex",
+  "name": "@terra/convex",
   "version": "0.0.0",
   "description": "Convex backend",
   "scripts": {
@@ -17,5 +17,5 @@
   "devDependencies": {
     "typescript": "catalog:"
   },
-  "prettier": "@myapp/prettier-config"
+  "prettier": "@terra/prettier-config"
 }

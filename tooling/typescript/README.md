@@ -1,3 +1,3 @@
-# `@myapp/tsconfig`
+# `@terra/tsconfig`
 
 Shared typescript configuration for the workspace.

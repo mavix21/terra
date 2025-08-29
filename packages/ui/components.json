@@ -11,10 +11,10 @@
   },
   "iconLibrary": "lucide",
   "aliases": {
-    "components": "@myapp/ui/components",
-    "utils": "@myapp/ui/lib/utils",
-    "hooks": "@myapp/ui/hooks",
-    "lib": "@myapp/ui/lib",
-    "ui": "@myapp/ui/components"
+    "components": "@terra/ui/components",
+    "utils": "@terra/ui/lib/utils",
+    "hooks": "@terra/ui/hooks",
+    "lib": "@terra/ui/lib",
+    "ui": "@terra/ui/components"
   }
 }

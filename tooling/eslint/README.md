@@ -1,3 +1,3 @@
-# `@myapp/eslint-config`
+# `@terra/eslint-config`
 
 Shared eslint configuration for the workspace.

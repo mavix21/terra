@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 
-import "@myapp/ui/globals.css";
+import "@terra/ui/globals.css";
 
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";

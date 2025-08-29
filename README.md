@@ -33,7 +33,7 @@ This repository is a pnpm monorepo. It consists of the following main parts:
 
 - **Robust Form Handling:** Uses `react-hook-form` and `zod` for creating and validating forms.
 
-- **Custom UI Library:** Leverages `@myapp/ui` for a consistent look and feel, built with shadcn/ui components.
+- **Custom UI Library:** Leverages `@terra/ui` for a consistent look and feel, built with shadcn/ui components.
 
 - **Server State Management:** Uses `@tanstack/react-query` for managing server state and caching.
 
@@ -56,7 +56,7 @@ Follow these instructions to get the project up and running on your local machin
 
     ```bash
     git clone *repo-url*
-    cd myapp
+    cd terra
     ```
 
 2.  **Install dependencies:**
