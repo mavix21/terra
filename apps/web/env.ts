@@ -14,6 +14,7 @@ export const env = createEnv({
    * This way you can ensure the app isn't built with invalid env vars.
    */
   server: {
+    NEXT_DYNAMIC_BEARER_TOKEN: z.string(),
     // POSTGRES_URL: z.string().url(),
   },
 
