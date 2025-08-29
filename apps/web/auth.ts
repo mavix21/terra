@@ -56,4 +56,10 @@ export const config = {
   },
 } satisfies NextAuthConfig;
 
+declare module "next-auth" {
+  interface Session {
+    convexToken: string;
+  }
+}
+
 export const { handlers, auth, signIn, signOut } = NextAuth(config);

@@ -6,9 +6,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 
+import { auth } from "@/auth";
 import { routing } from "@/shared/i18n/routing";
 import { ThemeProvider } from "@/shared/ui/theme-provider";
 
+import { ConvexClientProvider } from "../_providers";
 import DynamicProvider from "../_providers/dynamic-wrapper";
 
 const fontSans = Geist({
@@ -35,6 +37,8 @@ export default async function RootLayout({
     notFound();
   }
 
+  const session = await auth();
+
   return (
     <html lang={locale} suppressHydrationWarning>
       <body
@@ -47,7 +51,11 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <NextIntlClientProvider>
-            <DynamicProvider>{children}</DynamicProvider>
+            <DynamicProvider>
+              <ConvexClientProvider session={session}>
+                {children}
+              </ConvexClientProvider>
+            </DynamicProvider>
           </NextIntlClientProvider>
         </ThemeProvider>
       </body>
