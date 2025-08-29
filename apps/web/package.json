@@ -15,6 +15,7 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@auth/core": "^0.40.0",
     "@dynamic-labs/ethereum": "^4.29.5",
     "@dynamic-labs/sdk-react-core": "^4.29.5",
     "@t3-oss/env-nextjs": "^0.13.8",
@@ -23,7 +24,9 @@
     "@terra/convex": "workspace:*",
     "@terra/ui": "workspace:*",
     "convex": "^1.26.1",
+    "jsonwebtoken": "^9.0.2",
     "next": "15.5.0",
+    "next-auth": "beta",
     "next-intl": "^4.3.5",
     "next-themes": "^0.4.6",
     "react": "catalog:react19",
@@ -36,6 +39,7 @@
   "devDependencies": {
     "@terra/eslint-config": "workspace:*",
     "@terra/tsconfig": "workspace:*",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "catalog:",
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
