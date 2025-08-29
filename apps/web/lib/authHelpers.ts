@@ -1,12 +1,10 @@
-// app/lib/authHelpers.ts
-
 import type { Secret, VerifyErrors } from "jsonwebtoken";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 import { env } from "@/env";
 
 export const getKey = (
-  headers,
+  headers: any,
   callback: (err: Error | null, key?: Secret) => void,
 ): void => {
   console.log("calling getKey");
