@@ -15,6 +15,7 @@ import type {
 } from "convex/server";
 import type * as authAdapter from "../authAdapter.js";
 import type * as http from "../http.js";
+import type * as microlots from "../microlots.js";
 import type * as tables_authTables from "../tables/authTables.js";
 import type * as tables_coffeeShop from "../tables/coffeeShop.js";
 import type * as tables_microlot from "../tables/microlot.js";
@@ -34,6 +35,7 @@ import type * as tables_user from "../tables/user.js";
 declare const fullApi: ApiFromModules<{
   authAdapter: typeof authAdapter;
   http: typeof http;
+  microlots: typeof microlots;
   "tables/authTables": typeof tables_authTables;
   "tables/coffeeShop": typeof tables_coffeeShop;
   "tables/microlot": typeof tables_microlot;
