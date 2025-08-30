@@ -1,8 +1,7 @@
 import type { VariantProps } from "class-variance-authority";
 import * as React from "react";
-import { Slot, Slottable } from "@radix-ui/react-slot";
+import { Slot } from "@radix-ui/react-slot";
 import { cva } from "class-variance-authority";
-import { Loader2Icon } from "lucide-react";
 
 import { cn } from "@terra/ui/lib/utils";
 
@@ -29,9 +28,6 @@ const buttonVariants = cva(
         lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
         icon: "size-9",
       },
-      loading: {
-        true: "text-transparent",
-      },
     },
     defaultVariants: {
       variant: "default",
@@ -44,38 +40,20 @@ function Button({
   className,
   variant,
   size,
-  children,
-  disabled,
   asChild = false,
-  loading = false,
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
-    loading?: boolean;
   }) {
   const Comp = asChild ? Slot : "button";
 
   return (
     <Comp
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className, loading }))}
-      disabled={loading || disabled}
+      className={cn(buttonVariants({ variant, size, className }))}
       {...props}
-    >
-      {loading && (
-        <Loader2Icon
-          className={cn(
-            "text-muted absolute animate-spin",
-            // Used for conditional styling when button is loading
-            "loading",
-          )}
-          size={16}
-          aria-hidden="true"
-        />
-      )}
-      <Slottable>{children}</Slottable>
-    </Comp>
+    />
   );
 }
 
