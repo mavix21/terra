@@ -2,19 +2,37 @@
 
 import { pinata } from "@/lib/pinata.config";
 
-export async function uploadEventImgJSON(name: string, imageUrl: string) {
+export async function uploadCoffeeVerificationJSON(
+  name: string,
+  variety: string,
+  altitude: number,
+  harvestDate: string,
+  processingMethod: string,
+) {
   try {
     const upload = await pinata.upload.public
       .json({
         name,
-        description: "Event On-Chain",
+        description: "Coffee Verification On-Chain",
         attributes: [
           {
-            trait_type: "name",
-            value: name,
+            trait_type: "variety",
+            value: variety,
+          },
+          {
+            trait_type: "altitude",
+            value: altitude,
+          },
+          {
+            trait_type: "harvestDate",
+            value: harvestDate,
+          },
+          {
+            trait_type: "processingMethod",
+            value: processingMethod,
           },
         ],
-        image: imageUrl,
+        image: "https://example.com",
       })
       .name(name);
 
