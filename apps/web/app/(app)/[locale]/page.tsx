@@ -5,6 +5,8 @@ import { Button } from "@terra/ui/components/button";
 import { DynamicWidget } from "@/lib/dynamic";
 import { ThemeSwitcher } from "@/shared/ui/theme-switcher";
 
+import { SessionView } from "../_ui/session-view";
+
 export default function HomePage() {
   return (
     <div className="bg-background min-h-screen">
@@ -29,6 +31,7 @@ export default function HomePage() {
           <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
             Next.js Monorepo Template
           </h1>
+          <SessionView />
           <p className="text-muted-foreground max-w-[42rem] sm:text-xl">
             A modern, scalable template for building full-stack applications
             with Next.js, featuring a monorepo structure and beautiful UI
