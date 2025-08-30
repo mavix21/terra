@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "@terra/ui/globals.css";
 
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 
@@ -10,8 +11,7 @@ import { auth } from "@/auth";
 import { routing } from "@/shared/i18n/routing";
 import { ThemeProvider } from "@/shared/ui/theme-provider";
 
-import { ConvexClientProvider } from "../_providers";
-import DynamicProvider from "../_providers/dynamic-wrapper";
+import { ConvexClientProvider, OnchainProviders } from "../_providers";
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -38,6 +38,7 @@ export default async function RootLayout({
   }
 
   const session = await auth();
+  const cookie = (await headers()).get("cookie");
 
   return (
     <html lang={locale} suppressHydrationWarning>
@@ -51,11 +52,11 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <NextIntlClientProvider>
-            <DynamicProvider>
+            <OnchainProviders cookie={cookie}>
               <ConvexClientProvider session={session}>
                 {children}
               </ConvexClientProvider>
-            </DynamicProvider>
+            </OnchainProviders>
           </NextIntlClientProvider>
         </ThemeProvider>
       </body>
