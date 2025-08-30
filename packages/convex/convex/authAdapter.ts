@@ -12,7 +12,7 @@ import {
   sessionSchema,
   userSchema,
   verificationTokenSchema,
-} from "./authTables";
+} from "./tables/authTables";
 
 const adapterQuery = customQuery(query, {
   args: { secret: v.string() },
