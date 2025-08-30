@@ -39,7 +39,7 @@ import { Icons } from "@terra/ui/icons";
 
 import { Link } from "@/shared/i18n";
 
-import { navItems } from "../../data/nav-items";
+import { producerNavItems } from "../../data/nav-items";
 import { OrgSwitcher } from "../org-switcher";
 import { UserAvatarProfile } from "../user-avatar-profile";
 
@@ -84,7 +84,7 @@ export default function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupLabel>Overview</SidebarGroupLabel>
           <SidebarMenu>
-            {navItems.map((item) => {
+            {producerNavItems.map((item) => {
               const Icon = item.icon ? Icons[item.icon] : Icons.logo;
               return item.items && item.items.length > 0 ? (
                 <Collapsible
