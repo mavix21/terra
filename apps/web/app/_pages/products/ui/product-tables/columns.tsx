@@ -55,8 +55,8 @@ export const columns: ColumnDef<Product>[] = [
       const Icon = status === "active" ? CheckCircle2 : XCircle;
 
       return (
-        <Badge variant="outline" className="capitalize">
-          <Icon />
+        <Badge variant="outline" className="gap-2 capitalize">
+          <Icon className="size-3" />
           {status}
         </Badge>
       );

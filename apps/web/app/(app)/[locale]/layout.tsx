@@ -6,6 +6,7 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import { auth } from "@/auth";
 import { routing } from "@/shared/i18n/routing";
@@ -54,7 +55,7 @@ export default async function RootLayout({
           <NextIntlClientProvider>
             <OnchainProviders cookie={cookie}>
               <ConvexClientProvider session={session}>
-                {children}
+                <NuqsAdapter>{children}</NuqsAdapter>
               </ConvexClientProvider>
             </OnchainProviders>
           </NextIntlClientProvider>
