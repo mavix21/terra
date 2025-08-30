@@ -10,7 +10,7 @@ export default function SessionData({ session }: { session: Session | null }) {
             In this example, the whole session object is passed to the page,
             including the raw user object. Our recommendation is to{" "}
             <em>only pass the necessary fields</em> to the page, as the raw user
-            object may contain sensitive information.
+            object may contain sensitive information
           </p>
         ) : (
           <p>
