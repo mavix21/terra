@@ -1,78 +1,78 @@
 import { defineSchema, defineTable } from "convex/server";
-import { v, Validator } from "convex/values";
-
-// The users, accounts, sessions and verificationTokens tables are modeled
-// from https://authjs.dev/getting-started/adapters#models
-
-export const userSchema = {
-  email: v.string(),
-  name: v.optional(v.string()),
-  emailVerified: v.optional(v.number()),
-  image: v.optional(v.string()),
-};
-
-export const sessionSchema = {
-  userId: v.id("users"),
-  expires: v.number(),
-  sessionToken: v.string(),
-};
-
-export const accountSchema = {
-  userId: v.id("users"),
-  type: v.union(
-    v.literal("email"),
-    v.literal("oidc"),
-    v.literal("oauth"),
-    v.literal("webauthn"),
-  ),
-  provider: v.string(),
-  providerAccountId: v.string(),
-  refresh_token: v.optional(v.string()),
-  access_token: v.optional(v.string()),
-  expires_at: v.optional(v.number()),
-  token_type: v.optional(v.string() as Validator<Lowercase<string>>),
-  scope: v.optional(v.string()),
-  id_token: v.optional(v.string()),
-  session_state: v.optional(v.string()),
-};
-
-export const verificationTokenSchema = {
-  identifier: v.string(),
-  token: v.string(),
-  expires: v.number(),
-};
-
-export const authenticatorSchema = {
-  credentialID: v.string(),
-  userId: v.id("users"),
-  providerAccountId: v.string(),
-  credentialPublicKey: v.string(),
-  counter: v.number(),
-  credentialDeviceType: v.string(),
-  credentialBackedUp: v.boolean(),
-  transports: v.optional(v.string()),
-};
-
-const authTables = {
-  users: defineTable(userSchema).index("email", ["email"]),
-  sessions: defineTable(sessionSchema)
-    .index("sessionToken", ["sessionToken"])
-    .index("userId", ["userId"]),
-  accounts: defineTable(accountSchema)
-    .index("providerAndAccountId", ["provider", "providerAccountId"])
-    .index("userId", ["userId"]),
-  verificationTokens: defineTable(verificationTokenSchema).index(
-    "identifierToken",
-    ["identifier", "token"],
-  ),
-  authenticators: defineTable(authenticatorSchema)
-    .index("userId", ["userId"])
-    .index("credentialID", ["credentialID"]),
-};
+import { v } from "convex/values";
 
 export default defineSchema({
-  ...authTables,
-  // your other tables
-  // or pass `strictTableNameTypes: false`
-  // in the second argument argument to `defineSchema`
+  // --- TABLA DE USUARIOS ---
+  users: defineTable({
+    walletAddress: v.string(),
+
+    // --- CORRECCIÓN AQUÍ ---
+    // Usamos v.union() para permitir uno de los tres valores literales.
+    role: v.union(
+      v.literal("producer"),
+      v.literal("intermediary"),
+      v.literal("consumer"),
+    ),
+
+    name: v.optional(v.string()),
+    profileImageUrl: v.optional(v.string()),
+  }).index("by_walletAddress", ["walletAddress"]),
+
+  // --- TABLA DE PRODUCTORES ---
+  producers: defineTable({
+    userId: v.id("users"),
+    farmName: v.string(),
+    country: v.optional(v.string()),
+    bio: v.optional(v.string()),
+  }).index("by_userId", ["userId"]),
+
+  // --- TABLA DE CAFETERÍAS (Intermediarios) ---
+  coffeeShops: defineTable({
+    userId: v.id("users"),
+    shopName: v.string(),
+    location: v.string(),
+    menu: v.optional(
+      v.array(
+        v.object({
+          itemName: v.string(),
+          price: v.number(),
+        }),
+      ),
+    ),
+  }).index("by_userId", ["userId"]),
+
+  // --- TABLA DE MICROLOTES (El activo On-Chain) ---
+  microlots: defineTable({
+    tokenId: v.number(),
+    producerId: v.id("producers"),
+    variety: v.string(),
+    altitude: v.number(),
+    harvestDate: v.string(),
+    processingMethod: v.string(),
+    totalSupply: v.number(),
+    pricePerTokenWei: v.string(),
+    metadataURI: v.string(),
+  })
+    .index("by_tokenId", ["tokenId"])
+    .index("by_producer", ["producerId"]),
+
+  // --- TABLA DE POSESIÓN DE TOKENS ---
+  tokenHoldings: defineTable({
+    userId: v.id("users"),
+    microlotId: v.id("microlots"),
+    amount: v.number(),
+  }).index("by_user_and_microlot", ["userId", "microlotId"]),
+
+  // --- TABLA DE COMPRAS ---
+  purchases: defineTable({
+    consumerId: v.id("users"),
+    coffeeShopId: v.id("coffeeShops"),
+    totalAmountPaid: v.number(),
+    tokenizedAmount: v.number(),
+    microlotTokenizedId: v.id("microlots"),
+    tokensReceived: v.number(),
+    rewardIssued: v.optional(v.string()),
+  })
+    .index("by_consumer", ["consumerId"])
+    .index("by_coffeeShop", ["coffeeShopId"]),
 });
