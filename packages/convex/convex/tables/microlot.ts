@@ -12,6 +12,7 @@ export const microlotsTable = defineTable({
   family: v.string(),
   estate: v.string(),
   totalSupply: v.number(),
+  image: v.optional(v.id("_storage")),
   pricePerTokenWei: v.string(),
   metadataURI: v.string(),
 })
