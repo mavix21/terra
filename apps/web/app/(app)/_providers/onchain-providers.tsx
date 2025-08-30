@@ -1,5 +1,6 @@
 "use client";
 
+import { DynamicWagmiConnector } from "@dynamic-labs/wagmi-connector";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { cookieToInitialState, WagmiProvider } from "wagmi";
 
@@ -21,7 +22,7 @@ export function OnchainProviders({ children, cookie }: Props) {
     <DynamicProvider>
       <WagmiProvider config={wagmiConfig} initialState={initialState}>
         <QueryClientProvider client={queryClient}>
-          {children}
+          <DynamicWagmiConnector>{children}</DynamicWagmiConnector>
         </QueryClientProvider>
       </WagmiProvider>
     </DynamicProvider>
