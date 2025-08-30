@@ -1,5 +1,3 @@
-// ./auth.ts
-
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "@auth/core/providers/credentials";
 import { importPKCS8, SignJWT } from "jose";
