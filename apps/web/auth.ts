@@ -61,7 +61,7 @@ export const config = {
       if (!token.sub) return session;
 
       const privateKey = await importPKCS8(
-        process.env.CONVEX_AUTH_PRIVATE_KEY!.replace(/\\n/g, "\n"),
+        env.CONVEX_AUTH_PRIVATE_KEY.replace(/\\n/g, "\n"),
         "RS256",
       );
       const convexToken = await new SignJWT({
