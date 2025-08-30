@@ -6,12 +6,11 @@ import { locales, routing } from "./app/_shared/i18n";
 import { auth } from "./auth";
 import { BASE_URL } from "./lib/constants";
 
-const publicPages = ["/"];
+const publicPages = ["/", "/auth/sign-in"];
 
 const intlMiddleware = createIntlMiddleware(routing);
 
 const authMiddleware = auth((req) => {
-  console.log("authMiddleware", { req });
   if (req.auth) return intlMiddleware(req);
   const reqUrl = new URL(req.url);
 
