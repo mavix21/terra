@@ -93,6 +93,9 @@ importers:
       '@tanstack/react-query':
         specifier: 'catalog:'
         version: 5.85.5(react@19.1.1)
+      '@tanstack/react-table':
+        specifier: ^8.21.3
+        version: 8.21.3(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@terra/convex':
         specifier: workspace:*
         version: link:../../packages/convex
@@ -100,8 +103,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui
       convex:
-        specifier: ^1.26.1
-        version: 1.26.1(react@19.1.1)
+        specifier: ^1.26.2
+        version: 1.26.2(react@19.1.1)
       jose:
         specifier: ^6.1.0
         version: 6.1.0
@@ -191,11 +194,11 @@ importers:
   packages/convex:
     dependencies:
       convex:
-        specifier: ^1.26.1
-        version: 1.26.1(react@19.1.1)
+        specifier: ^1.26.2
+        version: 1.26.2(react@19.1.1)
       convex-helpers:
         specifier: ^0.1.104
-        version: 0.1.104(@standard-schema/spec@1.0.0)(convex@1.26.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2)(zod@3.25.67)
+        version: 0.1.104(@standard-schema/spec@1.0.0)(convex@1.26.2(react@19.1.1))(react@19.1.1)(typescript@5.9.2)(zod@3.25.67)
     devDependencies:
       typescript:
         specifier: 'catalog:'
@@ -4908,8 +4911,8 @@ packages:
       zod:
         optional: true
 
-  convex@1.26.1:
-    resolution: {integrity: sha512-LFDy+r13Ehqz4Zsr8zwVKrakl35kdQsAkGXdAIIjcPHP6DFd9b7Wjqomfd/Zc9+xMuqbVEh0KGyjzabiRF306g==}
+  convex@1.26.2:
+    resolution: {integrity: sha512-QG3zvZ9GTTeeBS+N5PJj73TULHYu99eVSOI3KU2hMnB9q40fHxkMFJ+AYox+K81roTakciBvNTvGlhfz+M10fQ==}
     engines: {node: '>=18.0.0', npm: '>=7.0.0'}
     hasBin: true
     peerDependencies:
@@ -15324,16 +15327,16 @@ snapshots:
 
   convert-source-map@2.0.0: {}
 
-  convex-helpers@0.1.104(@standard-schema/spec@1.0.0)(convex@1.26.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2)(zod@3.25.67):
+  convex-helpers@0.1.104(@standard-schema/spec@1.0.0)(convex@1.26.2(react@19.1.1))(react@19.1.1)(typescript@5.9.2)(zod@3.25.67):
     dependencies:
-      convex: 1.26.1(react@19.1.1)
+      convex: 1.26.2(react@19.1.1)
     optionalDependencies:
       '@standard-schema/spec': 1.0.0
       react: 19.1.1
       typescript: 5.9.2
       zod: 3.25.67
 
-  convex@1.26.1(react@19.1.1):
+  convex@1.26.2(react@19.1.1):
     dependencies:
       esbuild: 0.25.4
       jwt-decode: 4.0.0
