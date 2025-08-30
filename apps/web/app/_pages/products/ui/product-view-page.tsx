@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 
-import type { Product } from "@/shared/data/mock-api";
 import { fakeProducts } from "@/shared/data/mock-api";
 
 import ProductForm from "./product-form";
@@ -17,7 +16,7 @@ export default async function ProductViewPage({
 
   if (productId !== "new") {
     const data = await fakeProducts.getProductById(Number(productId));
-    product = data.product!;
+    product = data.product;
     if (!product) {
       notFound();
     }
