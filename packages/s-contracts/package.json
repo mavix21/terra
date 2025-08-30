@@ -4,7 +4,9 @@
   "type": "module",
   "scripts": {
     "build": "hardhat build",
-    "test": "forge test"
+    "test": "forge test",
+    "deploy": "node scripts/deployOptions.mjs",
+    "compile": "hardhat compile"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-ignition": "^3.0.0",
@@ -22,5 +24,10 @@
     "hardhat": "^3.0.1",
     "typescript": "catalog:",
     "viem": "^2.31.6"
+  },
+  "dependencies": {
+    "execa": "^9.6.0",
+    "hardhat-deploy": "^1.0.4",
+    "inquirer": "^12.9.4"
   }
 }
