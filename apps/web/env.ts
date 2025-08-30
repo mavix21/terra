@@ -17,7 +17,6 @@ export const env = createEnv({
     NEXT_DYNAMIC_BEARER_TOKEN: z.string(),
     CONVEX_AUTH_PRIVATE_KEY: z.string(),
     AUTH_SECRET: z.string(),
-    DEPLOYER_PRIVATE_KEY: z.string(),
     // POSTGRES_URL: z.string().url(),
   },
 
