@@ -2,6 +2,7 @@ import { IconBrandGithub, IconRocket } from "@tabler/icons-react";
 
 import { Button } from "@terra/ui/components/button";
 
+import { BASE_URL } from "@/lib/constants";
 import { DynamicWidget } from "@/lib/dynamic";
 import { ThemeSwitcher } from "@/shared/ui/theme-switcher";
 
@@ -31,6 +32,7 @@ export default function HomePage() {
           <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
             Next.js Monorepo Template
           </h1>
+          <h2>BASE_URL: {BASE_URL}</h2>
           <SessionView />
           <p className="text-muted-foreground max-w-[42rem] sm:text-xl">
             A modern, scalable template for building full-stack applications
