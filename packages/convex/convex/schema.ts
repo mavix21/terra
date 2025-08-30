@@ -1,7 +1,11 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
+import { authTables } from "./authTables";
+
 export default defineSchema({
+  ...authTables,
+
   // --- TABLA DE USUARIOS ---
   users: defineTable({
     walletAddress: v.string(),

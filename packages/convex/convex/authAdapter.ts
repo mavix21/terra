@@ -12,7 +12,7 @@ import {
   sessionSchema,
   userSchema,
   verificationTokenSchema,
-} from "./schema";
+} from "./authTables";
 
 const adapterQuery = customQuery(query, {
   args: { secret: v.string() },
@@ -170,16 +170,6 @@ export const getUserByAccount = adapterQuery({
       return null;
     }
     return await ctx.db.get(account.userId);
-  },
-});
-
-export const getUserByEmail = adapterQuery({
-  args: { email: v.string() },
-  handler: async (ctx, { email }) => {
-    return await ctx.db
-      .query("users")
-      .withIndex("email", (q) => q.eq("email", email))
-      .unique();
   },
 });
 
