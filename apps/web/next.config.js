@@ -23,6 +23,17 @@ const config = {
   /** We already do linting and typechecking as separate tasks in CI */
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
+
+  // Configure image domains for Next.js Image component
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "api.slingacademy.com",
+        port: "",
+      },
+    ],
+  },
 };
 
 const withNextIntl = createNextIntlPlugin("./app/_shared/i18n/request.ts");
