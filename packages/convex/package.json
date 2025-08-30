@@ -12,7 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "convex": "^1.26.1"
+    "convex": "^1.26.1",
+    "convex-helpers": "^0.1.104"
   },
   "devDependencies": {
     "typescript": "catalog:"
