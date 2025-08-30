@@ -1,8 +1,33 @@
-import createMiddleware from "next-intl/middleware";
+import type { NextRequest } from "next/server";
+import createIntlMiddleware from "next-intl/middleware";
 
-import { routing } from "./app/_shared/i18n";
+import { locales, routing } from "./app/_shared/i18n";
+import { auth } from "./auth";
 
-export default createMiddleware(routing);
+const publicPages = ["/landing"];
+
+const intlMiddleware = createIntlMiddleware(routing);
+
+const authMiddleware = auth((req) => {
+  console.log("authMiddleware", { req });
+  // if (req.)
+  return intlMiddleware(req);
+});
+
+// export default createIntlMiddleware(routing);
+
+export default function middleware(req: NextRequest) {
+  const publicPathnameRegex = RegExp(
+    `^(/(${locales.join("|")}))?(${publicPages
+      .flatMap((p) => (p === "/" ? ["", "/"] : p))
+      .join("|")})/?$`,
+    "i",
+  );
+
+  const isPublicPage = publicPathnameRegex.test(req.nextUrl.pathname);
+
+  return isPublicPage ? intlMiddleware(req) : (authMiddleware as any)(req);
+}
 
 export const config = {
   // Match all pathnames except for
