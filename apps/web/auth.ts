@@ -3,7 +3,6 @@ import Credentials from "@auth/core/providers/credentials";
 import { importPKCS8, SignJWT } from "jose";
 import NextAuth from "next-auth";
 
-import { ConvexAdapter } from "./ConvexAdapter";
 import { env } from "./env";
 import { validateJWT } from "./lib/authHelpers";
 
@@ -17,7 +16,6 @@ interface User {
 const CONVEX_SITE_URL = env.NEXT_PUBLIC_CONVEX_URL.replace(/.cloud$/, ".site");
 
 export const config = {
-  adapter: ConvexAdapter,
   theme: {
     logo: "https://next-auth.js.org/img/logo/logo-sm.png",
   },
@@ -58,14 +56,17 @@ export const config = {
       return true;
     },
     async session({ session, token }) {
-      if (!token.sub) return session;
+      if (!token.sub) {
+        console.error("token.sub is not defined");
+        return session;
+      }
 
       const privateKey = await importPKCS8(
-        env.CONVEX_AUTH_PRIVATE_KEY.replace(/\\n/g, "\n"),
+        env.CONVEX_AUTH_PRIVATE_KEY,
         "RS256",
       );
       const convexToken = await new SignJWT({
-        sub: session.userId,
+        sub: token.sub,
       })
         .setProtectedHeader({ alg: "RS256" })
         .setIssuedAt()
