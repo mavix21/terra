@@ -30,9 +30,9 @@ import {
   useQueryStates,
 } from "nuqs";
 
-import type { ExtendedColumnSort } from "../components/table/types";
-import { getSortingStateParser } from "../components/table/parsers";
-import { useDebouncedCallback } from "./use-debounced-callback";
+import type { ExtendedColumnSort } from "@terra/ui/components/table/types";
+import { getSortingStateParser } from "@terra/ui/components/table/parsers";
+import { useDebouncedCallback } from "@terra/ui/hooks/use-debounced-callback";
 
 const PAGE_KEY = "page";
 const PER_PAGE_KEY = "perPage";
