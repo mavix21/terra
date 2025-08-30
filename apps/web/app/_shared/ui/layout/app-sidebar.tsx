@@ -13,7 +13,6 @@ import {
 } from "@tabler/icons-react";
 import { signOut, useSession } from "next-auth/react";
 
-import { Button } from "@terra/ui/components/button";
 import {
   Collapsible,
   CollapsibleContent,
@@ -80,12 +79,16 @@ export default function AppSidebar() {
     // Side effects based on sidebar state changes
   }, [isOpen]);
 
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: "/" });
+  };
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
         <OrgSwitcher
           tenants={tenants}
-          defaultTenant={activeTenant ?? tenants[0]!}
+          defaultTenant={activeTenant!}
           onTenantSwitch={handleSwitchTenant}
         />
       </SidebarHeader>
@@ -95,7 +98,7 @@ export default function AppSidebar() {
           <SidebarMenu>
             {navItems.map((item) => {
               const Icon = item.icon ? Icons[item.icon] : Icons.logo;
-              return item?.items && item?.items?.length > 0 ? (
+              return item.items && item.items.length > 0 ? (
                 <Collapsible
                   key={item.title}
                   asChild
@@ -204,9 +207,7 @@ export default function AppSidebar() {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
                   <IconLogout className="mr-2 h-4 w-4" />
-                  <Button variant="ghost" onClick={() => signOut()}>
-                    Sign Out
-                  </Button>
+                  <button onClick={handleSignOut}>Sign Out</button>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
