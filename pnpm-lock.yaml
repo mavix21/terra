@@ -108,6 +108,9 @@ importers:
       kbar:
         specifier: 0.1.0-beta.48
         version: 0.1.0-beta.48(@types/react-dom@19.1.7(@types/react@19.1.11))(@types/react@19.1.11)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      lucide-react:
+        specifier: ^0.541.0
+        version: 0.541.0(react@19.1.1)
       next:
         specifier: 15.5.0
         version: 15.5.0(@babel/core@7.26.10)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
