@@ -2,8 +2,8 @@ import { IconBrandGithub, IconRocket } from "@tabler/icons-react";
 
 import { Button } from "@terra/ui/components/button";
 
+import { Link } from "@/app/_shared/i18n";
 import { BASE_URL } from "@/lib/constants";
-import { DynamicWidget } from "@/lib/dynamic";
 import { ThemeSwitcher } from "@/shared/ui/theme-switcher";
 
 import { SessionView } from "../_ui/session-view";
@@ -19,7 +19,7 @@ export default function HomePage() {
             <span className="text-xl font-bold">Next.js Monorepo</span>
           </div>
           <div className="flex items-center gap-2">
-            <DynamicWidget />
+            <Link href="/auth/sign-in">Log In</Link>
             <ThemeSwitcher />
           </div>
         </div>
