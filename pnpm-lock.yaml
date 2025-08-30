@@ -80,7 +80,7 @@ importers:
         version: 4.29.5(@types/react@19.1.11)(react-dom@19.1.1(react@19.1.1))(react-native@0.74.0(@babel/core@7.26.10)(@babel/preset-env@7.28.3(@babel/core@7.26.10))(@types/react@19.1.11)(bufferutil@4.0.9)(react@19.1.1)(utf-8-validate@5.0.10))(react@19.1.1)
       '@dynamic-labs/wagmi-connector':
         specifier: ^4.29.5
-        version: 4.29.5(y4fqdb6dypfpl7gwjf23wxycbu)
+        version: 4.29.5(daf674c6bd98d47eb1cb755052ec57fd)
       '@t3-oss/env-nextjs':
         specifier: ^0.13.8
         version: 0.13.8(arktype@2.1.20)(typescript@5.9.2)(zod@3.25.67)
@@ -212,7 +212,7 @@ importers:
         version: 3.0.0(hardhat@3.0.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))
       '@nomicfoundation/hardhat-toolbox-viem':
         specifier: ^5.0.0
-        version: 5.0.0(t5xjunyijrmytb2maetm35yn3e)
+        version: 5.0.0(513e0aaaad3861ac7ab3cef65ec0f128)
       '@nomicfoundation/hardhat-verify':
         specifier: ^3.0.0
         version: 3.0.0(hardhat@3.0.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))
@@ -10213,7 +10213,7 @@ snapshots:
       - utf-8-validate
       - viem
 
-  '@dynamic-labs/wagmi-connector@4.29.5(y4fqdb6dypfpl7gwjf23wxycbu)':
+  '@dynamic-labs/wagmi-connector@4.29.5(daf674c6bd98d47eb1cb755052ec57fd)':
     dependencies:
       '@dynamic-labs/assert-package-version': 4.29.5
       '@dynamic-labs/ethereum-core': 4.29.5(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(viem@2.31.6(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@3.25.67))
@@ -11714,7 +11714,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@nomicfoundation/hardhat-toolbox-viem@5.0.0(t5xjunyijrmytb2maetm35yn3e)':
+  '@nomicfoundation/hardhat-toolbox-viem@5.0.0(513e0aaaad3861ac7ab3cef65ec0f128)':
     dependencies:
       '@nomicfoundation/hardhat-ignition': 3.0.0(@nomicfoundation/hardhat-verify@3.0.0(hardhat@3.0.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)))(bufferutil@4.0.9)(hardhat@3.0.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(utf-8-validate@5.0.10)
       '@nomicfoundation/hardhat-ignition-viem': 3.0.0(@nomicfoundation/hardhat-ignition@3.0.0(@nomicfoundation/hardhat-verify@3.0.0(hardhat@3.0.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)))(bufferutil@4.0.9)(hardhat@3.0.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(utf-8-validate@5.0.10))(@nomicfoundation/hardhat-verify@3.0.0(hardhat@3.0.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)))(@nomicfoundation/hardhat-viem@3.0.0(hardhat@3.0.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(viem@2.31.6(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@3.25.67)))(@nomicfoundation/ignition-core@3.0.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))(hardhat@3.0.1(bufferutil@4.0.9)(utf-8-validate@5.0.10))(viem@2.31.6(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@3.25.67))
@@ -15803,7 +15803,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.1(@typescript-eslint/parser@8.41.0(eslint@9.34.0(jiti@1.21.7))(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0)(eslint@9.34.0(jiti@1.21.7)))(eslint@9.34.0(jiti@1.21.7)):
+  eslint-module-utils@2.12.1(@typescript-eslint/parser@8.41.0(eslint@9.34.0(jiti@1.21.7))(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1)(eslint@9.34.0(jiti@1.21.7)):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
@@ -15835,7 +15835,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.34.0(jiti@1.21.7)
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.1(@typescript-eslint/parser@8.41.0(eslint@9.34.0(jiti@1.21.7))(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0)(eslint@9.34.0(jiti@1.21.7)))(eslint@9.34.0(jiti@1.21.7))
+      eslint-module-utils: 2.12.1(@typescript-eslint/parser@8.41.0(eslint@9.34.0(jiti@1.21.7))(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1)(eslint@9.34.0(jiti@1.21.7))
       hasown: 2.0.2
       is-core-module: 2.16.1
       is-glob: 4.0.3
