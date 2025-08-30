@@ -1,6 +1,6 @@
 "use client";
 
-import { getCsrfToken } from "next-auth/react";
+import { getCsrfToken, getSession } from "next-auth/react";
 
 import { env } from "@/env";
 import {
@@ -20,6 +20,8 @@ export default function DynamicProvider({ children }: React.PropsWithChildren) {
             const authToken = getAuthToken();
 
             const csrfToken = await getCsrfToken();
+            console.log("csrfToken", csrfToken);
+            console.log("authToken", authToken);
 
             fetch("/api/auth/callback/credentials", {
               method: "POST",
@@ -33,6 +35,7 @@ export default function DynamicProvider({ children }: React.PropsWithChildren) {
               .then((res) => {
                 if (res.ok) {
                   console.log("LOGGED IN", res);
+                  getSession();
                   // Handle success - maybe redirect to the home page or user dashboard
                 } else {
                   // Handle any errors - maybe show an error message to the user
