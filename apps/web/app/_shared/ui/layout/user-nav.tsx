@@ -1,8 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { IconLogout } from "@tabler/icons-react";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 import { Button } from "@terra/ui/components/button";
 import {
@@ -15,15 +14,12 @@ import {
   DropdownMenuTrigger,
 } from "@terra/ui/components/dropdown-menu";
 
+import { LogoutButton } from "../logout-button";
 import { UserAvatarProfile } from "../user-avatar-profile";
 
 export function UserNav() {
   const { data: session } = useSession();
   const router = useRouter();
-
-  const handleSignOut = async () => {
-    await signOut({ callbackUrl: "/" });
-  };
 
   if (session?.user) {
     return (
@@ -60,8 +56,7 @@ export function UserNav() {
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
-            <IconLogout className="mr-2 h-4 w-4" />
-            <button onClick={handleSignOut}>Sign Out</button>
+            <LogoutButton />
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
