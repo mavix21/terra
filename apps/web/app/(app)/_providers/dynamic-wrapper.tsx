@@ -1,6 +1,6 @@
 "use client";
 
-import { getCsrfToken, signOut } from "next-auth/react";
+import { getCsrfToken, getSession, signOut } from "next-auth/react";
 
 import type { EvmNetwork } from "@/lib/dynamic";
 import { useRouter } from "@/app/_shared/i18n";
@@ -57,7 +57,9 @@ export default function DynamicProvider({ children }: React.PropsWithChildren) {
               });
 
               if (res.ok) {
-                router.replace("/dashboard");
+                const session = await getSession();
+                console.log("session", session);
+                router.replace("/dashboard/overview");
                 // Handle success - maybe redirect to the home page or user dashboard
               } else {
                 // Handle any errors - maybe show an error message to the user
