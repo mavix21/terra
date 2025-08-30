@@ -1,11 +1,14 @@
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import { IconLogout } from "@tabler/icons-react";
 
+import { signOut } from "@/auth";
+
 export function LogoutButton() {
   const { handleLogOut: handleLogOutDynamic } = useDynamicContext();
 
   const handleLogOut = async () => {
     await handleLogOutDynamic();
+    await signOut();
   };
 
   return (
