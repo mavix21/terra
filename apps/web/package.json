@@ -24,6 +24,7 @@
     "@terra/convex": "workspace:*",
     "@terra/ui": "workspace:*",
     "convex": "^1.26.1",
+    "jose": "^6.1.0",
     "jsonwebtoken": "^9.0.2",
     "next": "15.5.0",
     "next-auth": "beta",

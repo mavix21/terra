@@ -2,8 +2,10 @@
 
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "@auth/core/providers/credentials";
+import { importPKCS8, SignJWT } from "jose";
 import NextAuth from "next-auth";
 
+import { env } from "./env";
 import { validateJWT } from "./lib/authHelpers";
 
 interface User {
@@ -12,6 +14,8 @@ interface User {
   email: string;
   // Add other fields as needed
 }
+
+const CONVEX_SITE_URL = env.NEXT_PUBLIC_CONVEX_URL.replace(/.cloud$/, ".site");
 
 export const config = {
   theme: {
@@ -52,6 +56,27 @@ export const config = {
       const { pathname } = request.nextUrl;
       if (pathname === "/middleware-example") return !!auth;
       return true;
+    },
+    async session({ session, token }) {
+      if (!token.sub) return session;
+
+      const privateKey = await importPKCS8(
+        process.env.CONVEX_AUTH_PRIVATE_KEY!.replace(/\\n/g, "\n"),
+        "RS256",
+      );
+      const convexToken = await new SignJWT({
+        sub: session.userId,
+      })
+        .setProtectedHeader({ alg: "RS256" })
+        .setIssuedAt()
+        .setIssuer(CONVEX_SITE_URL)
+        .setAudience("convex")
+        .setExpirationTime("1h")
+        .sign(privateKey);
+
+      session.convexToken = convexToken;
+
+      return session;
     },
   },
 } satisfies NextAuthConfig;
