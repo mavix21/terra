@@ -32,7 +32,8 @@ export async function uploadCoffeeVerificationJSON(
             value: processingMethod,
           },
         ],
-        image: "https://example.com",
+        image:
+          "https://rose-gentle-toucan-395.mypinata.cloud/ipfs/bafybeibmwwr5ftobi7fni53r7gta5ss3xbuxeg6wwyuiyj5gmjpdbytrse",
       })
       .name(name);
 
