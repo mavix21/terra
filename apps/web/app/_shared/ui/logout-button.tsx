@@ -2,7 +2,11 @@ import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import { IconLogout } from "@tabler/icons-react";
 
 export function LogoutButton() {
-  const { handleLogOut } = useDynamicContext();
+  const { handleLogOut: handleLogOutDynamic } = useDynamicContext();
+
+  const handleLogOut = async () => {
+    await handleLogOutDynamic();
+  };
 
   return (
     <button onClick={handleLogOut} className="flex items-center gap-2">

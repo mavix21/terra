@@ -12,7 +12,7 @@ export interface Product {
 }
 
 //Info: The following data is used for the sidebar navigation and Cmd K bar.
-export const navItems: NavItem[] = [
+export const producerNavItems: NavItem[] = [
   {
     title: "Dashboard",
     url: "/dashboard/overview",

@@ -11,7 +11,7 @@ import {
 
 import { useRouter } from "@/shared/i18n";
 
-import { navItems } from "../../data/nav-items";
+import { producerNavItems } from "../../data/nav-items";
 import RenderResults from "./render-result";
 import useThemeSwitching from "./use-theme-switching";
 
@@ -25,7 +25,7 @@ export default function KBar({ children }: { children: React.ReactNode }) {
       router.push(url);
     };
 
-    return navItems.flatMap((navItem) => {
+    return producerNavItems.flatMap((navItem) => {
       // Only include base action if the navItem has a real URL and is not just a container
       const baseAction =
         navItem.url !== "#"
