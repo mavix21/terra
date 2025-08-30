@@ -3,6 +3,7 @@ import Credentials from "@auth/core/providers/credentials";
 import { importPKCS8, SignJWT } from "jose";
 import NextAuth from "next-auth";
 
+import { ConvexAdapter } from "./ConvexAdapter";
 import { env } from "./env";
 import { validateJWT } from "./lib/authHelpers";
 
@@ -16,6 +17,7 @@ interface User {
 const CONVEX_SITE_URL = env.NEXT_PUBLIC_CONVEX_URL.replace(/.cloud$/, ".site");
 
 export const config = {
+  adapter: ConvexAdapter,
   theme: {
     logo: "https://next-auth.js.org/img/logo/logo-sm.png",
   },
