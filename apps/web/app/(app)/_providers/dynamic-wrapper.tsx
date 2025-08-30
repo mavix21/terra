@@ -1,8 +1,9 @@
 "use client";
 
-import { getCsrfToken, getSession } from "next-auth/react";
+import { getCsrfToken, signOut } from "next-auth/react";
 
 import type { EvmNetwork } from "@/lib/dynamic";
+import { useRouter } from "@/app/_shared/i18n";
 import { env } from "@/env";
 import {
   DynamicContextProvider,
@@ -27,6 +28,8 @@ const listSepoliaNetwork = {
 } satisfies EvmNetwork;
 
 export default function DynamicProvider({ children }: React.PropsWithChildren) {
+  const router = useRouter();
+
   return (
     <DynamicContextProvider
       settings={{
@@ -42,28 +45,31 @@ export default function DynamicProvider({ children }: React.PropsWithChildren) {
 
             const csrfToken = await getCsrfToken();
 
-            fetch("/api/auth/callback/credentials", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-              },
-              body: `csrfToken=${encodeURIComponent(
-                csrfToken,
-              )}&token=${encodeURIComponent(authToken ?? "")}`,
-            })
-              .then((res) => {
-                if (res.ok) {
-                  getSession();
-                  // Handle success - maybe redirect to the home page or user dashboard
-                } else {
-                  // Handle any errors - maybe show an error message to the user
-                  console.error("Failed to log in");
-                }
-              })
-              .catch((error) => {
-                // Handle any exceptions
-                console.error("Error logging in", error);
+            try {
+              const res = await fetch("/api/auth/callback/credentials", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: `csrfToken=${encodeURIComponent(
+                  csrfToken,
+                )}&token=${encodeURIComponent(authToken ?? "")}`,
               });
+
+              if (res.ok) {
+                router.replace("/dashboard");
+                // Handle success - maybe redirect to the home page or user dashboard
+              } else {
+                // Handle any errors - maybe show an error message to the user
+                console.error("Failed to log in");
+              }
+            } catch (error) {
+              console.error("Error logging in", error);
+            }
+          },
+          onLogout: async (event) => {
+            console.log("onLogout", { event });
+            await signOut({ callbackUrl: "/" });
           },
         },
       }}
