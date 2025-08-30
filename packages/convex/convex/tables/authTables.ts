@@ -12,7 +12,6 @@ export const userSchema = {
   name: v.optional(v.string()),
   profileImageUrl: v.optional(v.string()),
   email: v.optional(v.string()),
-  address: v.optional(v.string()),
 };
 
 export const sessionSchema = {
@@ -59,7 +58,7 @@ export const authenticatorSchema = {
 
 export const authTables = {
   users: defineTable(userSchema)
-    .index("address", ["address"])
+    .index("walletAddress", ["walletAddress"])
     .index("email", ["email"]),
   sessions: defineTable(sessionSchema)
     .index("sessionToken", ["sessionToken"])

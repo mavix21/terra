@@ -1,6 +1,9 @@
 "use client";
 
+import { ConvexReactClient } from "convex/react";
 import { getCsrfToken, getSession, signOut } from "next-auth/react";
+
+import { api } from "@terra/convex/convex/_generated/api";
 
 import type { EvmNetwork } from "@/lib/dynamic";
 import { useRouter } from "@/app/_shared/i18n";
@@ -29,6 +32,7 @@ const listSepoliaNetwork = {
 
 export default function DynamicProvider({ children }: React.PropsWithChildren) {
   const router = useRouter();
+  const convex = new ConvexReactClient(env.NEXT_PUBLIC_CONVEX_URL);
 
   return (
     <DynamicContextProvider
@@ -40,38 +44,59 @@ export default function DynamicProvider({ children }: React.PropsWithChildren) {
             mergeNetworks([listSepoliaNetwork], networks),
         },
         events: {
-          onAuthSuccess: async (event) => {
-            const authToken = getAuthToken();
+          onAuthSuccess: (_event) => {
+            void (async () => {
+              const authToken = getAuthToken();
+              const csrfToken = await getCsrfToken();
 
-            const csrfToken = await getCsrfToken();
+              try {
+                const res = await fetch("/api/auth/callback/credentials", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                  },
+                  body: `csrfToken=${encodeURIComponent(
+                    csrfToken,
+                  )}&token=${encodeURIComponent(authToken ?? "")}`,
+                });
 
-            try {
-              const res = await fetch("/api/auth/callback/credentials", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/x-www-form-urlencoded",
-                },
-                body: `csrfToken=${encodeURIComponent(
-                  csrfToken,
-                )}&token=${encodeURIComponent(authToken ?? "")}`,
-              });
-
-              if (res.ok) {
-                const session = await getSession();
-                console.log("session", session);
-                router.replace("/dashboard/overview");
-                // Handle success - maybe redirect to the home page or user dashboard
-              } else {
-                // Handle any errors - maybe show an error message to the user
-                console.error("Failed to log in");
+                if (res.ok) {
+                  const session = await getSession();
+                  console.log("session", session);
+                  router.replace("/dashboard/overview");
+                } else {
+                  console.error("Failed to log in");
+                }
+              } catch (error) {
+                console.error("Error logging in", error);
               }
-            } catch (error) {
-              console.error("Error logging in", error);
-            }
+            })();
           },
-          onLogout: async (event) => {
-            console.log("onLogout", { event });
-            await signOut({ callbackUrl: "/" });
+          onLogout: (_event) => {
+            console.log("onLogout", { event: _event });
+            void (async () => {
+              await signOut({ callbackUrl: "/" });
+            })();
+          },
+        },
+        handlers: {
+          handleAuthenticatedUser: async (event) => {
+            const walletAddress = (event.user.verifiedCredentials.find(
+              (credential) => credential.address !== undefined,
+            )?.address ?? "0x") as `0x${string}`;
+
+            if (walletAddress !== "0x" && event.user.email !== undefined) {
+              try {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                await convex.mutation(api.users.createUserIfNotExists, {
+                  email: event.user.email,
+                  walletAddress,
+                });
+              } catch (error) {
+                console.error("Failed to ensure user exists", error);
+              }
+            }
+            console.log("handleAuthenticatedUser", { event });
           },
         },
       }}

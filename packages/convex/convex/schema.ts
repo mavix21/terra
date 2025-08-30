@@ -7,11 +7,9 @@ import { microlotsTable } from "./tables/microlot";
 import { producersTable } from "./tables/producer";
 import { purchasesTable } from "./tables/purchase";
 import { tokenHoldingsTable } from "./tables/tokenHolding";
-import { usersTable } from "./tables/user";
 
 const schema = defineSchema({
   ...authTables,
-  users: usersTable,
   producers: producersTable,
   coffeeShops: coffeeShopsTable,
   microlots: microlotsTable,

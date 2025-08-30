@@ -23,7 +23,7 @@ import type * as tables_microlot from "../tables/microlot.js";
 import type * as tables_producer from "../tables/producer.js";
 import type * as tables_purchase from "../tables/purchase.js";
 import type * as tables_tokenHolding from "../tables/tokenHolding.js";
-import type * as tables_user from "../tables/user.js";
+import type * as users from "../users.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -44,7 +44,7 @@ declare const fullApi: ApiFromModules<{
   "tables/producer": typeof tables_producer;
   "tables/purchase": typeof tables_purchase;
   "tables/tokenHolding": typeof tables_tokenHolding;
-  "tables/user": typeof tables_user;
+  users: typeof users;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,
