@@ -2,12 +2,29 @@
 
 import { getCsrfToken, getSession } from "next-auth/react";
 
+import type { EvmNetwork } from "@/lib/dynamic";
 import { env } from "@/env";
 import {
   DynamicContextProvider,
   EthereumWalletConnectors,
   getAuthToken,
+  mergeNetworks,
 } from "@/lib/dynamic";
+
+const listSepoliaNetwork = {
+  blockExplorerUrls: ["https://sepolia-blockscout.lisk.com"],
+  chainId: 4202,
+  networkId: 4202,
+  chainName: "Lisk Sepolia",
+  name: "Lisk Sepolia",
+  iconUrls: ["https://icons.llamao.fi/icons/chains/rsz_lisk.jpg"],
+  nativeCurrency: {
+    decimals: 18,
+    name: "Ether",
+    symbol: "ETH",
+  },
+  rpcUrls: ["https://rpc.sepolia-api.lisk.com"],
+} satisfies EvmNetwork;
 
 export default function DynamicProvider({ children }: React.PropsWithChildren) {
   return (
@@ -15,6 +32,10 @@ export default function DynamicProvider({ children }: React.PropsWithChildren) {
       settings={{
         environmentId: env.NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID,
         walletConnectors: [EthereumWalletConnectors],
+        overrides: {
+          evmNetworks: (networks) =>
+            mergeNetworks([listSepoliaNetwork], networks),
+        },
         events: {
           onAuthSuccess: async (event) => {
             const authToken = getAuthToken();
