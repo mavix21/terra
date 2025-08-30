@@ -1,17 +1,28 @@
 import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import createIntlMiddleware from "next-intl/middleware";
 
 import { locales, routing } from "./app/_shared/i18n";
 import { auth } from "./auth";
+import { BASE_URL } from "./lib/constants";
 
-const publicPages = ["/landing"];
+const publicPages = ["/"];
 
 const intlMiddleware = createIntlMiddleware(routing);
 
 const authMiddleware = auth((req) => {
   console.log("authMiddleware", { req });
-  // if (req.)
-  return intlMiddleware(req);
+  if (req.auth) return intlMiddleware(req);
+  const reqUrl = new URL(req.url);
+
+  if (reqUrl.pathname !== "/") {
+    return NextResponse.redirect(
+      new URL(
+        `${BASE_URL}/?callbackUrl=${encodeURIComponent(reqUrl.pathname)}`,
+        req.url,
+      ),
+    );
+  }
 });
 
 // export default createIntlMiddleware(routing);
