@@ -1,7 +1,11 @@
-import type { NextAuthConfig } from "next-auth";
+import type { DefaultSession, NextAuthConfig } from "next-auth";
 import Credentials from "@auth/core/providers/credentials";
+import { fetchMutation, fetchQuery } from "convex/nextjs";
 import { importPKCS8, SignJWT } from "jose";
 import NextAuth from "next-auth";
+
+import type { Id } from "@terra/convex/convex/_generated/dataModel";
+import { api } from "@terra/convex/convex/_generated/api";
 
 import { env } from "./env";
 import { validateJWT } from "./lib/authHelpers";
@@ -32,7 +36,12 @@ export const config = {
         if (typeof token !== "string" || !token) {
           throw new Error("Token is required");
         }
-        const jwtPayload = await validateJWT(token);
+        interface Payload {
+          sub?: string;
+          name?: string;
+          email?: string;
+        }
+        const jwtPayload = (await validateJWT(token)) as Payload | null;
 
         if (jwtPayload) {
           // Transform the JWT payload into your user object
@@ -65,9 +74,34 @@ export const config = {
         env.CONVEX_AUTH_PRIVATE_KEY,
         "RS256",
       );
-      const convexToken = await new SignJWT({
-        sub: token.sub,
-      })
+      // Ensure a Convex user exists and use its _id as the subject when possible
+      let subject = token.sub;
+      const email = session.user.email;
+      if (email) {
+        try {
+          // Ensure user exists (idempotent if already created elsewhere)
+          await fetchMutation(api.users.createUserIfNotExists, {
+            email,
+            walletAddress: "0x",
+          });
+          const userId = await fetchQuery(api.users.getUserIdByEmail, {
+            email,
+          });
+          if (userId) {
+            subject = userId as unknown as string;
+            // Attach data to the NextAuth session for client usage
+            session.user = {
+              ...session.user,
+              email,
+              convexUserId: userId as Id<"users">,
+            };
+          }
+        } catch (err) {
+          console.error("Failed to resolve Convex user id for session:", err);
+        }
+      }
+
+      const convexToken = await new SignJWT({ sub: subject })
         .setProtectedHeader({ alg: "RS256" })
         .setIssuedAt()
         .setIssuer(CONVEX_SITE_URL)
@@ -85,6 +119,9 @@ export const config = {
 declare module "next-auth" {
   interface Session {
     convexToken: string;
+    user: DefaultSession["user"] & {
+      convexUserId?: Id<"users">;
+    };
   }
 }
 
