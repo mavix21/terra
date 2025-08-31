@@ -5,38 +5,38 @@ import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 /**
- * @title TerraCafe (Propiedad Fraccional)
- * @dev Contrato para tokenizar lotes de café permitiendo la propiedad fraccional.
- * Cada token (lote) puede ser comprado por múltiples compradores.
+ * @title TerraCafe (Fractional Ownership)
+ * @dev Contract for tokenizing coffee lots allowing fractional ownership.
+ * Each token (lot) can be purchased by multiple buyers.
  */
-contract TerraCafe is ERC1155, ReentrancyGuard {
-    // --- Variables de Estado ---
-    string public name = "TerraCafe";
-    string public symbol = "TCAFE";
+contract TerraFactory is ERC1155, ReentrancyGuard {
+    // --- State Variables ---
+    string public name = "TerraFactory";
+    string public symbol = "TERRA";
     uint256 public tokenIdCounter;
 
-    // --- Mappings de Datos del Lote ---
-    mapping(uint256 => address) public tokenCreator; // Productor del lote
-    mapping(uint256 => uint256) public pricesInWei; // Precio por unidad/fracción
-    mapping(uint256 => string) private _tokenURIs; // URI de metadatos para cada lote
+    // --- Lot Data Mappings ---
+    mapping(uint256 => address) public tokenCreator; // Lot producer
+    mapping(uint256 => uint256) public pricesInWei; // Price per unit/fraction
+    mapping(uint256 => string) private _tokenURIs; // Metadata URI for each lot
 
-    // --- NUEVO: Estructura y Mappings para la Compra Fraccional ---
+    // --- NEW: Structure and Mappings for Fractional Purchase ---
     struct Contribution {
         address buyer;
-        uint256 amount; // Cantidad en Wei contribuida
+        uint256 amount; // Amount contributed in Wei
     }
 
-    // Mapping de un tokenId a un array de contribuciones de compradores
+    // Mapping from tokenId to array of buyer contributions
     mapping(uint256 => Contribution[]) public contributions;
     
-    // Mapping para rastrear cuánto ha contribuido cada comprador a un lote
+    // Mapping to track how much each buyer has contributed to a lot
     mapping(uint256 => mapping(address => uint256)) public contributedAmount;
     
-    // Mapping para saber el total recaudado para un lote
+    // Mapping to know total raised for a lot
     mapping(uint256 => uint256) public totalRaised;
 
 
-    // --- Eventos ---
+    // --- Events ---
     event CoffeeListed(
         uint256 indexed tokenId,
         address indexed producer,
@@ -45,14 +45,14 @@ contract TerraCafe is ERC1155, ReentrancyGuard {
         string metadataURI
     );
 
-    // NUEVO: Evento para la contribución
+    // NEW: Event for contribution
     event ContributionMade(
         uint256 indexed tokenId,
         address indexed buyer,
         uint256 amountContributed
     );
     
-    // MODIFICADO: Refleja la distribución de tokens
+    // MODIFIED: Reflects token distribution
     event CoffeeTokensDistributed(
         uint256 indexed tokenId,
         address indexed producer,
@@ -63,21 +63,21 @@ contract TerraCafe is ERC1155, ReentrancyGuard {
     // --- Constructor ---
     constructor() ERC1155("") {}
 
-    // --- Funciones Principales ---
+    // --- Main Functions ---
 
     /**
-     * @dev Lista un nuevo lote de café. El productor define el número de fracciones (supply).
-     * @param _supply El número de fracciones en las que se divide el lote.
-     * @param _fullMetadataURI El URI completo para los metadatos del lote.
-     * @param _pricePerFractionInWei El precio en wei por cada fracción del lote.
+     * @dev Lists a new coffee lot. Producer defines number of fractions (supply).
+     * @param _supply The number of fractions the lot is divided into.
+     * @param _fullMetadataURI The complete URI for lot metadata.
+     * @param _pricePerFractionInWei The price in wei per lot fraction.
      */
     function listCoffee(
         uint256 _supply,
         string memory _fullMetadataURI,
         uint256 _pricePerFractionInWei
     ) public {
-        require(_pricePerFractionInWei > 0, "El precio debe ser > 0");
-        require(_supply > 0, "El suministro debe ser > 0");
+        require(_pricePerFractionInWei > 0, "Price must be > 0");
+        require(_supply > 0, "Supply must be > 0");
         
         uint256 newTokenId = tokenIdCounter;
 
@@ -85,7 +85,7 @@ contract TerraCafe is ERC1155, ReentrancyGuard {
         pricesInWei[newTokenId] = _pricePerFractionInWei;
         _tokenURIs[newTokenId] = _fullMetadataURI;
 
-        // El productor se mintea a sí mismo todas las fracciones inicialmente
+        // Producer mints all fractions to themselves initially
         _mint(msg.sender, newTokenId, _supply, "");
         emit CoffeeListed(newTokenId, msg.sender, _supply, _pricePerFractionInWei, _fullMetadataURI);
 
@@ -93,19 +93,19 @@ contract TerraCafe is ERC1155, ReentrancyGuard {
     }
 
     /**
-     * @dev Permite a un comprador contribuir fondos para comprar una o más fracciones de un lote.
-     * Los tokens no se transfieren hasta que el productor decide "cerrar" la venta.
+     * @dev Allows a buyer to contribute funds to purchase one or more lot fractions.
+     * Tokens are not transferred until producer decides to "close" the sale.
      */
     function contributeToBuy(uint256 _tokenId, uint256 _fractionsToBuy) public payable nonReentrant {
         uint256 pricePerFraction = pricesInWei[_tokenId];
         address producer = tokenCreator[_tokenId];
         uint256 totalCost = pricePerFraction * _fractionsToBuy;
 
-        require(producer != address(0), "Este lote de cafe no existe.");
-        require(balanceOf(producer, _tokenId) >= _fractionsToBuy, "No hay suficientes fracciones disponibles en el lote.");
-        require(msg.value == totalCost, "La cantidad de ETH enviada no coincide con el coste total.");
+        require(producer != address(0), "This coffee lot does not exist");
+        require(balanceOf(producer, _tokenId) >= _fractionsToBuy, "Not enough fractions available in the lot");
+        require(msg.value == totalCost, "ETH amount sent does not match total cost");
 
-        // Registra la contribución
+        // Record contribution
         contributions[_tokenId].push(Contribution({
             buyer: msg.sender,
             amount: _fractionsToBuy
@@ -118,23 +118,23 @@ contract TerraCafe is ERC1155, ReentrancyGuard {
     }
     
     /**
-     * @dev NUEVO: Función para que el productor finalice la recaudación y distribuya los tokens.
-     * El productor recibe todo el dinero recaudado y los tokens se transfieren a los compradores.
+     * @dev NEW: Function for producer to finalize fundraising and distribute tokens.
+     * Producer receives all raised money and tokens are transferred to buyers.
      */
     function distributeTokens(uint256 _tokenId) public nonReentrant {
         address producer = tokenCreator[_tokenId];
-        require(msg.sender == producer, "Solo el productor puede distribuir los tokens.");
+        require(msg.sender == producer, "Only producer can distribute tokens");
         
         uint256 amountToDistribute = contributions[_tokenId].length;
-        require(amountToDistribute > 0, "No hay contribuciones para distribuir.");
+        require(amountToDistribute > 0, "No contributions to distribute");
 
         uint256 totalPayment = totalRaised[_tokenId];
         
-        // 1. Pagar al productor
+        // 1. Pay the producer
         (bool success, ) = producer.call{value: totalPayment}("");
-        require(success, "El pago al productor fallo.");
+        require(success, "Producer payment failed");
 
-        // 2. Distribuir los tokens a cada contribuyente
+        // 2. Distribute tokens to each contributor
         for (uint i = 0; i < amountToDistribute; i++) {
             Contribution storage contribution = contributions[_tokenId][i];
             address buyer = contribution.buyer;
@@ -145,20 +145,20 @@ contract TerraCafe is ERC1155, ReentrancyGuard {
             }
         }
         
-        // 3. Limpiar los datos para evitar re-distribución
+        // 3. Clean data to prevent re-distribution
         delete contributions[_tokenId];
         delete totalRaised[_tokenId];
-        // Opcional: podrías querer mantener el `contributedAmount` para histórico
+        // Optional: you may want to keep contributedAmount for history
 
         emit CoffeeTokensDistributed(_tokenId, producer, totalPayment);
     }
 
 
     /**
-     * @dev Retorna el URI único para un token específico.
+     * @dev Returns unique URI for a specific token.
      */
     function uri(uint256 _tokenId) public view override returns (string memory) {
-        require(bytes(_tokenURIs[_tokenId]).length > 0, "URI no establecido para este token.");
+        require(bytes(_tokenURIs[_tokenId]).length > 0, "URI not set for this token");
         return _tokenURIs[_tokenId];
     }
 }
