@@ -42,7 +42,7 @@ export const config = {
           email?: string;
         }
         const jwtPayload = (await validateJWT(token)) as Payload | null;
-
+        console.warn("jwtPayload", jwtPayload);
         if (jwtPayload) {
           // Transform the JWT payload into your user object
           const user: User = {
@@ -110,6 +110,7 @@ export const config = {
         .sign(privateKey);
 
       session.convexToken = convexToken;
+      console.warn("session", convexToken);
 
       return session;
     },
