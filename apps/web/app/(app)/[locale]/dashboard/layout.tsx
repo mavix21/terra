@@ -9,8 +9,8 @@ import KBar from "@/shared/ui/kbar";
 import Header from "@/shared/ui/layout/header";
 
 export const metadata: Metadata = {
-  title: "Next Shadcn Dashboard Starter",
-  description: "Basic dashboard with Next.js and Shadcn",
+  title: "Terra",
+  description: "From farm to cup",
 };
 
 export default async function DashboardLayout({

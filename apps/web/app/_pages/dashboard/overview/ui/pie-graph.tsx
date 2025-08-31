@@ -20,36 +20,16 @@ import {
 } from "@terra/ui/components/chart";
 
 const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--primary)" },
-  { browser: "safari", visitors: 200, fill: "var(--primary-light)" },
-  { browser: "firefox", visitors: 287, fill: "var(--primary-lighter)" },
-  { browser: "edge", visitors: 173, fill: "var(--primary-dark)" },
-  { browser: "other", visitors: 190, fill: "var(--primary-darker)" },
+  { name: "Caturra", visitors: 275 },
+  { name: "Bourbon", visitors: 200 },
+  { name: "Geisha", visitors: 287 },
+  { name: "Typica", visitors: 173 },
+  { name: "Other", visitors: 190 },
 ];
 
 const chartConfig = {
   visitors: {
-    label: "Visitors",
-  },
-  chrome: {
-    label: "Chrome",
-    color: "var(--primary)",
-  },
-  safari: {
-    label: "Safari",
-    color: "var(--primary)",
-  },
-  firefox: {
-    label: "Firefox",
-    color: "var(--primary)",
-  },
-  edge: {
-    label: "Edge",
-    color: "var(--primary)",
-  },
-  other: {
-    label: "Other",
-    color: "var(--primary)",
+    label: "Revenue",
   },
 } satisfies ChartConfig;
 
@@ -76,41 +56,39 @@ export function PieGraph() {
         >
           <PieChart>
             <defs>
-              {["chrome", "safari", "firefox", "edge", "other"].map(
-                (browser, index) => (
-                  <linearGradient
-                    key={browser}
-                    id={`fill${browser}`}
-                    x1="0"
-                    y1="0"
-                    x2="0"
-                    y2="1"
-                  >
-                    <stop
-                      offset="0%"
-                      stopColor="var(--primary)"
-                      stopOpacity={1 - index * 0.15}
-                    />
-                    <stop
-                      offset="100%"
-                      stopColor="var(--primary)"
-                      stopOpacity={0.8 - index * 0.15}
-                    />
-                  </linearGradient>
-                ),
-              )}
+              {chartData.map((_, index) => (
+                <linearGradient
+                  key={index}
+                  id={`fill${index}`}
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="1"
+                >
+                  <stop
+                    offset="0%"
+                    stopColor="var(--primary)"
+                    stopOpacity={1 - index * 0.15}
+                  />
+                  <stop
+                    offset="100%"
+                    stopColor="var(--primary)"
+                    stopOpacity={0.8 - index * 0.15}
+                  />
+                </linearGradient>
+              ))}
             </defs>
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
             <Pie
-              data={chartData.map((item) => ({
+              data={chartData.map((item, index) => ({
                 ...item,
-                fill: `url(#fill${item.browser})`,
+                fill: `url(#fill${index})`,
               }))}
               dataKey="visitors"
-              nameKey="browser"
+              nameKey="name"
               innerRadius={60}
               strokeWidth={2}
               stroke="var(--background)"
