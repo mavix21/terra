@@ -7,4 +7,4 @@ export const BASE_URL =
     : "http://localhost:3000";
 
 export const COFFEE_VERIFICATION_CONTRACT_ADDRESS =
-  "0xD3d0E2DAe69D3C9A69D84715F34073b6caa5De9B" as const;
+  "0xaa18e4F24941959310A1177088B515dF214182b1" as const;
