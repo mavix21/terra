@@ -1,4 +1,4 @@
-# Terra 🌱
+# Terra
 
 Project description
 
