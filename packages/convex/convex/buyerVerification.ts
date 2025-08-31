@@ -41,5 +41,3 @@ export const upsert = mutation({
     return ctx.db.insert("buyerVerifications", args);
   },
 });
-
-
