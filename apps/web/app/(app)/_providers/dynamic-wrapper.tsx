@@ -87,7 +87,6 @@ export default function DynamicProvider({ children }: React.PropsWithChildren) {
 
             if (walletAddress !== "0x" && event.user.email !== undefined) {
               try {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                 await convex.mutation(api.users.createUserIfNotExists, {
                   email: event.user.email,
                   walletAddress,
