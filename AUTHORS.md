@@ -1,0 +1,4 @@
+- Marcelo Vizcarra <marcevizcarra2109@gmail.com>
+- Gienalla Coronel <gia.ne12@hotmail.com>
+- Yulia Ya <Julyanochkina@gmail.com>
+- Yamille Celis <yamille.celis@gmail.com>
