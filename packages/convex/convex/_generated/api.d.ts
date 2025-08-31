@@ -14,10 +14,12 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as authAdapter from "../authAdapter.js";
+import type * as buyerVerification from "../buyerVerification.js";
 import type * as http from "../http.js";
 import type * as microlots from "../microlots.js";
 import type * as storage from "../storage.js";
 import type * as tables_authTables from "../tables/authTables.js";
+import type * as tables_buyerVerification from "../tables/buyerVerification.js";
 import type * as tables_coffeeShop from "../tables/coffeeShop.js";
 import type * as tables_microlot from "../tables/microlot.js";
 import type * as tables_producer from "../tables/producer.js";
@@ -35,10 +37,12 @@ import type * as users from "../users.js";
  */
 declare const fullApi: ApiFromModules<{
   authAdapter: typeof authAdapter;
+  buyerVerification: typeof buyerVerification;
   http: typeof http;
   microlots: typeof microlots;
   storage: typeof storage;
   "tables/authTables": typeof tables_authTables;
+  "tables/buyerVerification": typeof tables_buyerVerification;
   "tables/coffeeShop": typeof tables_coffeeShop;
   "tables/microlot": typeof tables_microlot;
   "tables/producer": typeof tables_producer;
