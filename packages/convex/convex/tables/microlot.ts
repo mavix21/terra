@@ -13,7 +13,7 @@ export const microlotsTable = defineTable({
   estate: v.string(),
   totalSupply: v.number(),
   image: v.optional(v.id("_storage")),
-  pricePerTokenWei: v.string(),
+  pricePerTokenEth: v.number(),
   metadataURI: v.string(),
 })
   .index("by_tokenId", ["tokenId"])

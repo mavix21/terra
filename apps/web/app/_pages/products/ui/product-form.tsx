@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "convex/react";
 import { useForm } from "react-hook-form";
-import { parseEventLogs } from "viem";
+import { parseEther, parseEventLogs } from "viem";
 import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import * as z from "zod";
 
@@ -131,7 +131,7 @@ export default function ProductForm({
   const [pending, setPending] = useState<
     | (FormValues & {
         metadataCid: string;
-        priceWei: string;
+        priceEth: number;
         imageId?: Id<"_storage">;
       })
     | null
@@ -161,7 +161,7 @@ export default function ProductForm({
                 family: pending.family,
                 estate: pending.estate,
                 totalSupply: pending.totalSupply,
-                pricePerTokenWei: pending.priceWei,
+                pricePerTokenEth: pending.priceEth,
                 metadataURI,
                 image: pending.imageId,
               },
@@ -211,11 +211,6 @@ export default function ProductForm({
         throw new Error("Failed to upload metadata to IPFS");
       }
 
-      // Convert ETH to Wei (string)
-      const priceWei = (
-        BigInt(Math.round(values.pricePerTokenEth * 1e6)) * BigInt(1e12)
-      ).toString();
-
       writeContract({
         address: COFFEE_VERIFICATION_CONTRACT_ADDRESS as `0x${string}`,
         abi,
@@ -223,14 +218,14 @@ export default function ProductForm({
         args: [
           BigInt(values.totalSupply),
           `https://rose-gentle-toucan-395.mypinata.cloud/ipfs/${uploadResult.cid}`,
-          BigInt(priceWei),
+          parseEther(values.pricePerTokenEth.toString()),
         ],
       });
 
       setPending({
         ...values,
         metadataCid: uploadResult.cid,
-        priceWei,
+        priceEth: values.pricePerTokenEth,
         imageId,
       });
     } catch (e: unknown) {
@@ -411,7 +406,7 @@ export default function ProductForm({
                     <FormControl>
                       <Input
                         type="number"
-                        step="0.000000000000000001"
+                        step="0.001"
                         placeholder="1.0"
                         {...field}
                       />

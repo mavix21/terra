@@ -62,7 +62,7 @@ export const createMicrolot = mutation({
       family: v.string(),
       estate: v.string(),
       totalSupply: v.number(),
-      pricePerTokenWei: v.string(),
+      pricePerTokenEth: v.number(),
       metadataURI: v.string(),
       image: v.optional(v.id("_storage")),
     }),

@@ -1,5 +1,4 @@
 import { fetchQuery } from "convex/nextjs";
-import { formatEther } from "viem";
 import { z } from "zod";
 
 import { api } from "@terra/convex/convex/_generated/api";
@@ -21,7 +20,7 @@ interface Microlot {
   family: string;
   estate: string;
   totalSupply: number;
-  pricePerTokenWei: string;
+  pricePerTokenEth: number;
   metadataURI: string;
   image?: string | null;
   imageUrl: string | null;
@@ -46,7 +45,7 @@ export default async function ProductListingPage() {
     family: z.string(),
     estate: z.string(),
     totalSupply: z.number(),
-    pricePerTokenWei: z.string(),
+    pricePerTokenEth: z.number(),
     metadataURI: z.string(),
     image: z.string().nullable().optional(),
     imageUrl: z.string().nullable(),
@@ -67,12 +66,7 @@ export default async function ProductListingPage() {
       m.imageUrl ??
       `https://api.slingacademy.com/public/sample-products/${m.tokenId}.png`;
 
-    let price = 0;
-    try {
-      price = parseFloat(formatEther(BigInt(m.pricePerTokenWei)));
-    } catch {
-      price = 0;
-    }
+    const price = m.pricePerTokenEth;
 
     const createdAt = m.harvestDate;
 
