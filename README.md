@@ -212,4 +212,3 @@ MIT (or project-appropriate). Replace this line with the chosen license if diffe
 ## 🙋 Project Links (for judges)
 
 - Live demo: https://terra-sandy.vercel.app/
-- Demo video: <add link>
