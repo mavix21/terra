@@ -3,7 +3,7 @@
 </div>
 
 <div align="center">
-  <a href="https://terra-sandy.vercel.app/"><strong>Live demo</strong></a>
+  <a href="https://terra-sandy.vercel.app/">🚀 <strong>Live demo</strong></a>
   
 </div>
 
