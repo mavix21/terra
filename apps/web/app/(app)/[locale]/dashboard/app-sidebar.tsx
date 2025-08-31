@@ -51,7 +51,7 @@ export const company = {
 };
 
 const tenants = [
-  { id: "1", name: "Producer" },
+  { id: "1", name: "Grower" },
   { id: "2", name: "Buyer" },
 ];
 
