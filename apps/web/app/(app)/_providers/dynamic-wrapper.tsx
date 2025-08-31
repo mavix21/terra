@@ -82,6 +82,8 @@ export default function DynamicProvider({ children }: React.PropsWithChildren) {
             const walletAddress = (event.user.verifiedCredentials.find(
               (credential) => credential.address !== undefined,
             )?.address ?? "0x") as `0x${string}`;
+            console.log("walletAddress", walletAddress);
+            console.log("event", event);
 
             if (walletAddress !== "0x" && event.user.email !== undefined) {
               try {
