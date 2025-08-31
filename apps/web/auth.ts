@@ -96,7 +96,7 @@ export const config = {
             };
           }
         } catch (err) {
-          console.error("Failed to resolve Convex user id for session:", err);
+          console.error("Failed to resolve convex user id for session:", err);
         }
       }
 
