@@ -1,14 +1,37 @@
 # Terra
 
-Fractional ownership for specialty coffee microlots. Producers tokenize microlots as ERC-1155 assets, buyers acquire fractional tokens transparently, and everyone tracks provenance and activity in real time.
+Terra is a marketplace that connects coffee growers, buyers, and consumers by tokenizing specialty coffee microlots. Growers list their harvest as fractional lots; verified buyers acquire and manage inventory directly; consumers discover coffee, collect digital rewards, and explore verifiable origin stories.
 
-### Why it matters
+## Business Overview
 
-- **For producers**: Upfront liquidity and global reach by selling fractions of a lot.
-- **For buyers/roasters**: Transparent provenance and the ability to support specific farms and lots.
-- **For the ecosystem**: Open, on-chain settlement optionality with real-time off-chain UX.
+Terra brings transparency and access to the specialty coffee supply chain:
 
----
+- Growers turn microlots into fractional digital assets (ERC-1155) with rich metadata and images, listing them directly to the market.
+- Verified buyers purchase fractions aligned with their needs, enabling flexible sourcing and inventory planning.
+- Consumers engage with coffee stories, locations, and rewards, reinforcing loyalty and origin traceability.
+
+### Key Features by Persona
+
+#### For Growers
+
+- **Tokenize microlots**: Create fractional lots with total supply and price per token.
+- **Rich lot profiles**: Add variety, altitude, harvest date, processing method, descriptions, and images (stored via IPFS/Pinata).
+- **Manage inventory**: View and manage your listed microlots from the dashboard.
+- **Direct-to-buyer sales**: Reach verified buyers without intermediaries; track recorded purchases.
+- **On-chain ready**: ERC-1155 contract supports distribution of tokens to contributors on sale closure (Lisk L2).
+
+#### For Buyers
+
+- **Business verification**: Set up a verified buyer profile (supports SSI-style data and credentials) to unlock purchasing.
+- **Browse marketplace**: Discover available microlots with detailed metadata and links to token instances on a block explorer.
+- **Fractional purchasing**: Choose exact quantities, record purchases, and track holdings in your dashboard.
+- **Lisk L2 integration**: Built around ERC-1155 ownership and ready for on-chain settlement on Lisk Sepolia.
+
+#### For Consumers
+
+- **Discover and explore**: Consumer app with map and search to find coffee shops and their coffees.
+- **Collect rewards**: POAP-style collectibles and a collections view to showcase tastings and visits.
+- **Traceability storytelling**: Access lot details and provenance links that connect bean to cup.
 
 ## 📦 Monorepo Structure
 
