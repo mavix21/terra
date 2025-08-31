@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="logo.jpg" alt="Terra Logo" width="200" />
+</div>
+
 # Terra
 
 Terra is a marketplace that connects coffee growers, buyers, and consumers by tokenizing specialty coffee microlots. Growers list their harvest as fractional lots; verified buyers acquire and manage inventory directly; consumers discover coffee, collect digital rewards, and explore verifiable origin stories.
@@ -230,8 +234,10 @@ Smart contracts (`packages/s-contracts`): see Smart Contracts section above.
 
 ## 📄 License
 
-MIT (or project-appropriate). Replace this line with the chosen license if different.
+Apache License 2.0
 
 ## 🙋 Project Links (for judges)
 
 - Live demo: https://terra-sandy.vercel.app/
+- Pitch deck: [Canva](https://www.canva.com/design/DAGxm5HvLb4/Y3tf4OPFqlqLL3sfH5PtWQ/edit?utm_content=DAGxm5HvLb4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+- Brand kit: [Figma](https://www.figma.com/design/G2DstynBBYvWRrvI2U953o/Untitled?node-id=0-1&t=tMrbHIlUTSPaZv5D-1)
