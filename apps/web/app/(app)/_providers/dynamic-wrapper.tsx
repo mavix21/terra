@@ -61,8 +61,7 @@ export default function DynamicProvider({ children }: React.PropsWithChildren) {
                 });
 
                 if (res.ok) {
-                  const session = await getSession();
-                  console.log("session", session);
+                  await getSession();
                   router.replace("/dashboard/overview");
                 } else {
                   console.error("Failed to log in");
@@ -95,7 +94,6 @@ export default function DynamicProvider({ children }: React.PropsWithChildren) {
                 console.error("Failed to ensure user exists", error);
               }
             }
-            console.log("handleAuthenticatedUser", { event });
           },
         },
       }}
