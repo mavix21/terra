@@ -209,3 +209,68 @@ export const listMicrolotsByOthersPaginated = query({
     return { items: itemsWithUrls, total };
   },
 });
+
+export const buyTokens = mutation({
+  args: {
+    tokenId: v.number(),
+    amount: v.number(),
+  },
+  handler: async (ctx, { tokenId, amount }) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Unauthorized");
+    }
+
+    const userId = identity.subject as Id<"users">;
+
+    if (!Number.isFinite(amount) || amount <= 0) {
+      throw new Error("Amount must be a positive number");
+    }
+
+    const microlot = await ctx.db
+      .query("microlots")
+      .withIndex("by_tokenId", (q) => q.eq("tokenId", tokenId))
+      .unique();
+
+    if (!microlot) {
+      throw new Error("Microlot not found");
+    }
+
+    // Enforce per-purchase cap based on totalSupply (UI will also enforce)
+    if (amount > microlot.totalSupply) {
+      throw new Error("Requested amount exceeds available supply cap");
+    }
+
+    const existingHolding = await ctx.db
+      .query("tokenHoldings")
+      .withIndex("by_user_and_microlot", (q) =>
+        q.eq("userId", userId).eq("microlotId", microlot._id),
+      )
+      .unique();
+
+    // Upsert token holding
+    const holdingId = existingHolding
+      ? (await ctx.db.patch(existingHolding._id, {
+          amount: existingHolding.amount + amount,
+        }),
+        existingHolding._id)
+      : await ctx.db.insert("tokenHoldings", {
+          userId,
+          microlotId: microlot._id,
+          amount,
+        });
+
+    // Record a purchase
+    await ctx.db.insert("microlotPurchases", {
+      buyerId: userId,
+      sellerId: microlot.producerId,
+      microlotId: microlot._id,
+      amount,
+      pricePerTokenEth: microlot.pricePerTokenEth,
+      totalAmountPaidEth: microlot.pricePerTokenEth * amount,
+      createdAt: Date.now(),
+    });
+
+    return holdingId;
+  },
+});

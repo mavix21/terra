@@ -61,6 +61,7 @@ export async function BuyLot() {
       category: "active",
       photo_url: photoUrl,
       token_link: tokenLink,
+      max: m.totalSupply,
     } satisfies BuyRow;
   });
 

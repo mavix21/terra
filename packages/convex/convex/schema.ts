@@ -5,6 +5,7 @@ import { authTables } from "./tables/authTables";
 import { buyerVerificationTable } from "./tables/buyerVerification";
 import { coffeeShopsTable } from "./tables/coffeeShop";
 import { microlotsTable } from "./tables/microlot";
+import { microlotPurchasesTable } from "./tables/microlotPurchase";
 import { producersTable } from "./tables/producer";
 import { purchasesTable } from "./tables/purchase";
 import { tokenHoldingsTable } from "./tables/tokenHolding";
@@ -17,6 +18,7 @@ const schema = defineSchema({
   tokenHoldings: tokenHoldingsTable,
   purchases: purchasesTable,
   buyerVerifications: buyerVerificationTable,
+  microlotPurchases: microlotPurchasesTable,
 });
 
 export default schema;

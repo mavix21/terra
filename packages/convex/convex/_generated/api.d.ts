@@ -22,6 +22,7 @@ import type * as tables_authTables from "../tables/authTables.js";
 import type * as tables_buyerVerification from "../tables/buyerVerification.js";
 import type * as tables_coffeeShop from "../tables/coffeeShop.js";
 import type * as tables_microlot from "../tables/microlot.js";
+import type * as tables_microlotPurchase from "../tables/microlotPurchase.js";
 import type * as tables_producer from "../tables/producer.js";
 import type * as tables_purchase from "../tables/purchase.js";
 import type * as tables_tokenHolding from "../tables/tokenHolding.js";
@@ -45,6 +46,7 @@ declare const fullApi: ApiFromModules<{
   "tables/buyerVerification": typeof tables_buyerVerification;
   "tables/coffeeShop": typeof tables_coffeeShop;
   "tables/microlot": typeof tables_microlot;
+  "tables/microlotPurchase": typeof tables_microlotPurchase;
   "tables/producer": typeof tables_producer;
   "tables/purchase": typeof tables_purchase;
   "tables/tokenHolding": typeof tables_tokenHolding;
