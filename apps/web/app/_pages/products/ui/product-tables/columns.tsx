@@ -23,6 +23,8 @@ export const columns: ColumnDef<Product>[] = [
             src={row.getValue("photo_url")}
             alt={row.getValue("name")}
             fill
+            unoptimized
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="rounded-lg"
           />
         </div>
