@@ -41,7 +41,7 @@ export function PieGraph() {
   return (
     <Card className="@container/card">
       <CardHeader>
-        <CardTitle>Pie Chart - Donut with Text</CardTitle>
+        <CardTitle>Visitor Distribution by Coffee Variety</CardTitle>
         <CardDescription>
           <span className="hidden @[540px]/card:block">
             Total visitors by browser for the last 6 months
