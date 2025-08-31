@@ -24,6 +24,7 @@ export const getKey = (
       return response.json();
     })
     .then((json) => {
+      console.warn("json", json);
       const publicKey = json.key.publicKey;
 
       const pemPublicKey = Buffer.from(publicKey, "base64").toString("ascii");
