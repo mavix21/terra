@@ -213,5 +213,3 @@ MIT (or project-appropriate). Replace this line with the chosen license if diffe
 
 - Live demo: https://terra-sandy.vercel.app/
 - Demo video: <add link>
-- Deck/one-pager: <add link>
-- Contact: <name / email / X handle>
