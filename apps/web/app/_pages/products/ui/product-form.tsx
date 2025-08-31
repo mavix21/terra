@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "convex/react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { parseEther, parseEventLogs } from "viem";
 import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import * as z from "zod";
@@ -167,6 +168,9 @@ export default function ProductForm({
               },
             })
               .then(() => {
+                toast.success("Product created successfully!", {
+                  description: `Microlot "${pending.name}" has been created and listed on the marketplace.`,
+                });
                 form.reset(defaultValues);
                 setPending(null);
                 setIsSubmitting(false);
