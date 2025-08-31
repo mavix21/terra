@@ -4,6 +4,7 @@ import { z } from "zod";
 import { api } from "@terra/convex/convex/_generated/api";
 
 import type { Product } from "@/shared/data/mock-api";
+import { auth } from "@/auth";
 import { searchParamsCache } from "@/shared/utils/searchparams";
 
 import { ProductTable } from "./product-tables";
@@ -35,6 +36,7 @@ export default async function ProductListingPage() {
 
   const currentPage = Math.max(1, page);
   const limit = Math.max(1, pageLimit);
+  const session = await auth();
   const MicrolotSchema = z.object({
     tokenId: z.number(),
     variety: z.string(),
@@ -55,10 +57,14 @@ export default async function ProductListingPage() {
     total: z.number(),
   });
   const { items, total } = PaginatedSchema.parse(
-    await fetchQuery(api.microlots.listMicrolotsPaginated, {
-      page: currentPage,
-      limit,
-    }),
+    await fetchQuery(
+      api.microlots.listOwnMicrolotsPaginated,
+      {
+        page: currentPage,
+        limit,
+      },
+      session?.convexToken ? { token: session.convexToken } : undefined,
+    ),
   );
 
   const products: Product[] = items.map((m: Microlot) => {

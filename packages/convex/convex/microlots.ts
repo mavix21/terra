@@ -50,6 +50,55 @@ export const listMicrolotsPaginated = query({
   },
 });
 
+export const listOwnMicrolotsPaginated = query({
+  args: {
+    page: v.number(),
+    limit: v.number(),
+  },
+  handler: async (ctx, { page, limit }) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      return { items: [], total: 0 };
+    }
+    const currentUserId = identity.subject as Id<"users">;
+
+    const safePage = Math.max(1, page);
+    const safeLimit = Math.max(1, Math.min(limit, 100));
+
+    let cursor: string | null = null;
+    let current = 1;
+    let result = await ctx.db
+      .query("microlots")
+      .withIndex("by_producer", (q) => q.eq("producerId", currentUserId))
+      .paginate({ numItems: safeLimit, cursor });
+
+    while (current < safePage && !result.isDone) {
+      cursor = result.continueCursor;
+      result = await ctx.db
+        .query("microlots")
+        .withIndex("by_producer", (q) => q.eq("producerId", currentUserId))
+        .paginate({ numItems: safeLimit, cursor });
+      current += 1;
+    }
+
+    const itemsWithUrls = await Promise.all(
+      result.page.map(async (m) => {
+        const imageUrl = m.image ? await ctx.storage.getUrl(m.image) : null;
+        return { ...m, imageUrl };
+      }),
+    );
+
+    const total = (
+      await ctx.db
+        .query("microlots")
+        .withIndex("by_producer", (q) => q.eq("producerId", currentUserId))
+        .collect()
+    ).length;
+
+    return { items: itemsWithUrls, total };
+  },
+});
+
 export const createMicrolot = mutation({
   args: {
     microlot: v.object({
