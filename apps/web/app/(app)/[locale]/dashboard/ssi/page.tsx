@@ -9,12 +9,7 @@ import * as z from "zod";
 
 import { api } from "@terra/convex/convex/_generated/api";
 import { Button } from "@terra/ui/components/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@terra/ui/components/card";
+import { Card, CardContent } from "@terra/ui/components/card";
 import {
   Form,
   FormControl,
@@ -23,7 +18,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@terra/ui/components/form";
+import { Heading } from "@terra/ui/components/heading";
 import { Input } from "@terra/ui/components/input";
+
+import PageContainer from "@/app/_shared/ui/layout/page-container";
 
 const formSchema = z.object({
   businessName: z.string().min(2, { message: "Business name is required." }),
@@ -44,23 +42,24 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function SsiPage() {
   const { data: session } = useSession();
-  const userEmail = session?.user?.email ?? "";
+  const userId = session?.user.convexUserId ?? null;
+  const userEmail = session?.user.email ?? "";
 
-  const userId = useQuery(api.users.getUserIdByEmail, { email: userEmail });
   const existing = useQuery(
     api.buyerVerification.getForUser,
     userId ? { userId } : "skip",
   );
 
   const upsert = useMutation(api.buyerVerification.upsert);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const defaultValues: FormValues = useMemo(
     () => ({
       businessName: existing?.businessName ?? "",
       taxId: existing?.taxId ?? "",
       licenseId: existing?.licenseId ?? "",
-      certifications: existing?.certifications?.join(", ") ?? "",
-      contactEmail: existing?.contactEmail ?? session?.user?.email ?? "",
+      certifications: existing?.certifications.join(", ") ?? "",
+      contactEmail: existing?.contactEmail ?? userEmail,
       contactPhone: existing?.contactPhone ?? "",
       addressLine1: existing?.addressLine1 ?? "",
       addressLine2: existing?.addressLine2 ?? "",
@@ -69,7 +68,7 @@ export default function SsiPage() {
       country: existing?.country ?? "",
       postalCode: existing?.postalCode ?? "",
     }),
-    [existing, session?.user?.email],
+    [existing, userEmail],
   );
 
   const form = useForm<FormValues>({
@@ -80,6 +79,7 @@ export default function SsiPage() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const isVerified = (existing?.isVerified ?? false) || showSuccess;
 
   async function onSubmit(values: FormValues) {
     if (!userId) return;
@@ -106,205 +106,288 @@ export default function SsiPage() {
         postalCode: values.postalCode,
         isVerified: true,
       });
+      setShowSuccess(true);
     } finally {
       setIsSubmitting(false);
     }
   }
 
   return (
-    <Card className="mx-auto w-full">
-      <CardHeader>
-        <CardTitle className="text-left text-2xl font-bold">
-          Self-Sovereign Identity Verification
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <FormField
-                control={form.control}
-                name="businessName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Business Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Your legal business name"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+    <PageContainer>
+      <div className="w-full space-y-4">
+        <Heading
+          title="Self-Sovereign Identity Verification"
+          description="Verify your identity to access the platform"
+        />
+        <Card className="mx-auto w-full">
+          <CardContent>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-8"
+              >
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  <FormField
+                    control={form.control}
+                    name="businessName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Business Name</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Your legal business name"
+                            {...field}
+                            readOnly={isVerified}
+                            disabled={isVerified}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="taxId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Tax ID</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Business Tax ID"
+                            {...field}
+                            readOnly={isVerified}
+                            disabled={isVerified}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="licenseId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Business License</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="License ID"
+                            {...field}
+                            readOnly={isVerified}
+                            disabled={isVerified}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="certifications"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Certifications (comma separated)</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="e.g. Organic, Fair Trade"
+                            {...field}
+                            readOnly={isVerified}
+                            disabled={isVerified}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="contactEmail"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Contact Email</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="email"
+                            placeholder="name@company.com"
+                            {...field}
+                            readOnly={isVerified}
+                            disabled={isVerified}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="contactPhone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Contact Phone</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="+1 555 123 4567"
+                            {...field}
+                            readOnly={isVerified}
+                            disabled={isVerified}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="addressLine1"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Address Line 1</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Street address"
+                            {...field}
+                            readOnly={isVerified}
+                            disabled={isVerified}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="addressLine2"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Address Line 2</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Apt, suite, etc. (optional)"
+                            {...field}
+                            readOnly={isVerified}
+                            disabled={isVerified}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="city"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>City</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="City"
+                            {...field}
+                            readOnly={isVerified}
+                            disabled={isVerified}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="state"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>State/Region</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="State or region"
+                            {...field}
+                            readOnly={isVerified}
+                            disabled={isVerified}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="country"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Country</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Country"
+                            {...field}
+                            readOnly={isVerified}
+                            disabled={isVerified}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="postalCode"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Postal Code</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="ZIP or postal code"
+                            {...field}
+                            readOnly={isVerified}
+                            disabled={isVerified}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                {!isVerified && (
+                  <div className="flex items-center gap-3">
+                    <Button type="submit" disabled={isSubmitting || !userId}>
+                      {isSubmitting
+                        ? "Saving..."
+                        : existing
+                          ? "Update Verification"
+                          : "Verify"}
+                    </Button>
+                  </div>
                 )}
-              />
-              <FormField
-                control={form.control}
-                name="taxId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Tax ID</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Business Tax ID" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="licenseId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Business License</FormLabel>
-                    <FormControl>
-                      <Input placeholder="License ID" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="certifications"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Certifications (comma separated)</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="e.g. Organic, Fair Trade"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="contactEmail"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Contact Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="email"
-                        placeholder="name@company.com"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="contactPhone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Contact Phone</FormLabel>
-                    <FormControl>
-                      <Input placeholder="+1 555 123 4567" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="addressLine1"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Address Line 1</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Street address" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="addressLine2"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Address Line 2</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Apt, suite, etc. (optional)"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="city"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>City</FormLabel>
-                    <FormControl>
-                      <Input placeholder="City" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="state"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>State/Region</FormLabel>
-                    <FormControl>
-                      <Input placeholder="State or region" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="country"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Country</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Country" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="postalCode"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Postal Code</FormLabel>
-                    <FormControl>
-                      <Input placeholder="ZIP or postal code" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
+        {showSuccess && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-green-500/10 p-6 ring-green-500/30 backdrop-blur-sm dark:bg-green-900/20">
+            <div className="bg-background relative w-full max-w-md rounded-xl border border-green-500/30 p-6 shadow-2xl">
+              <div className="mx-auto mb-4 flex size-14 items-center justify-center rounded-full bg-green-500/15">
+                <svg
+                  viewBox="0 0 24 24"
+                  className="animate-in fade-in zoom-in size-8 text-green-600"
+                  aria-hidden
+                >
+                  <path
+                    fill="currentColor"
+                    d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm-1 14l-4-4 1.414-1.414L11 12.172l4.586-4.586L17 9l-6 7Z"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-center text-xl font-semibold">
+                You're verified!
+              </h3>
+              <p className="text-muted-foreground mt-2 text-center">
+                You now have access to buying coffee lots.
+              </p>
+              <div className="mt-6 flex justify-center">
+                <Button onClick={() => setShowSuccess(false)}>Continue</Button>
+              </div>
             </div>
-
-            <div className="flex items-center gap-3">
-              <Button type="submit" disabled={isSubmitting || !userId}>
-                {isSubmitting
-                  ? "Saving..."
-                  : existing
-                    ? "Update Verification"
-                    : "Verify"}
-              </Button>
-            </div>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+          </div>
+        )}
+      </div>
+    </PageContainer>
   );
 }

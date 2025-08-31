@@ -26,7 +26,7 @@ export default async function DashboardLayout({
       <KBar>
         <SidebarProvider defaultOpen={defaultOpen}>
           <AppSidebar />
-          <SidebarInset>
+          <SidebarInset className="overflow-y-hidden">
             <Header />
             {/* page main content */}
             {children}

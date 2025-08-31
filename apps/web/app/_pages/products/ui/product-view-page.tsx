@@ -23,5 +23,5 @@ export default async function ProductViewPage({
     pageTitle = `Edit Product`;
   }
 
-  return <ProductForm initialData={product} pageTitle={pageTitle} />;
+  return <ProductForm initialData={null} pageTitle={pageTitle} />;
 }

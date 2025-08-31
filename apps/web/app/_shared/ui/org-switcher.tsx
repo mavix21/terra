@@ -24,10 +24,12 @@ export function OrgSwitcher({
   tenants,
   selectedTenantId,
   onTenantSwitchAction,
+  showVerifiedBadge,
 }: {
   tenants: Tenant[];
   selectedTenantId: string;
   onTenantSwitchAction?: (tenantId: string) => void;
+  showVerifiedBadge?: boolean;
 }) {
   if (tenants.length === 0) return null;
 
@@ -52,7 +54,20 @@ export function OrgSwitcher({
               </div>
               <div className="flex flex-col gap-0.5 leading-none">
                 <span className="font-semibold">Terra</span>
-                <span className="">{selectedName}</span>
+                <span className="flex items-center gap-2">
+                  {selectedName}
+                  {showVerifiedBadge === true && (
+                    <span className="inline-flex items-center gap-1 rounded bg-green-100 px-1.5 py-0.5 text-[10px] font-medium text-green-700 dark:bg-green-900/40 dark:text-green-200">
+                      <svg viewBox="0 0 20 20" className="size-3" aria-hidden>
+                        <path
+                          fill="currentColor"
+                          d="M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Zm3.707-9.707a1 1 0 0 0-1.414-1.414L9 10.172 7.707 8.879a1 1 0 1 0-1.414 1.414L9 13.0l4.707-4.707Z"
+                        />
+                      </svg>
+                      Verified
+                    </span>
+                  )}
+                </span>
               </div>
               <ChevronsUpDown className="ml-auto" />
             </SidebarMenuButton>

@@ -98,73 +98,90 @@ export default function AppSidebar() {
             setActiveTenantId(id);
             handleSwitchTenant(id);
           }}
+          showVerifiedBadge={
+            activeTenantId === "2" && buyerVerification?.isVerified === true
+          }
         />
       </SidebarHeader>
       <SidebarContent className="overflow-x-hidden">
         <SidebarGroup>
           <SidebarGroupLabel>Overview</SidebarGroupLabel>
           <SidebarMenu>
-            {(profile === "producer" ? producerNavItems : buyerNavItems).map(
-              (item) => {
-                const Icon = item.icon ? Icons[item.icon] : Icons.logo;
-                return item.items && item.items.length > 0 ? (
-                  <Collapsible
-                    key={item.title}
-                    asChild
-                    defaultOpen={item.isActive}
-                    className="group/collapsible"
-                  >
-                    <SidebarMenuItem>
-                      <CollapsibleTrigger asChild>
-                        <SidebarMenuButton
-                          tooltip={item.title}
-                          isActive={pathname === item.url}
-                        >
-                          {item.icon && <Icon />}
-                          <span>{item.title}</span>
-                          <IconChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                        </SidebarMenuButton>
-                      </CollapsibleTrigger>
-                      <CollapsibleContent>
-                        <SidebarMenuSub>
-                          {item.items.map((subItem) => (
-                            <SidebarMenuSubItem key={subItem.title}>
-                              <SidebarMenuSubButton
-                                asChild
-                                isActive={pathname === subItem.url}
-                              >
-                                <Link href={subItem.url}>
-                                  <span>{subItem.title}</span>
-                                </Link>
-                              </SidebarMenuSubButton>
-                            </SidebarMenuSubItem>
-                          ))}
-                        </SidebarMenuSub>
-                      </CollapsibleContent>
-                    </SidebarMenuItem>
-                  </Collapsible>
-                ) : (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton
-                      asChild
-                      tooltip={item.title}
-                      isActive={pathname === item.url}
-                    >
-                      <Link href={item.url}>
-                        <Icon />
+            {(profile === "producer"
+              ? producerNavItems
+              : [
+                  ...buyerNavItems,
+                  ...(buyerVerification?.isVerified
+                    ? [
+                        {
+                          title: "Buy lot",
+                          url: "/dashboard/buy",
+                          icon: "product",
+                          isActive: false,
+                          items: [],
+                        } as const,
+                      ]
+                    : []),
+                ]
+            ).map((item) => {
+              const Icon = item.icon ? Icons[item.icon] : Icons.logo;
+              return item.items && item.items.length > 0 ? (
+                <Collapsible
+                  key={item.title}
+                  asChild
+                  defaultOpen={item.isActive}
+                  className="group/collapsible"
+                >
+                  <SidebarMenuItem>
+                    <CollapsibleTrigger asChild>
+                      <SidebarMenuButton
+                        tooltip={item.title}
+                        isActive={pathname === item.url}
+                      >
+                        {item.icon && <Icon />}
                         <span>{item.title}</span>
-                        {item.url === "/dashboard/ssi" && showSsiPulse && (
-                          <span
-                            className="bg-primary ml-2 inline-block h-2 w-2 animate-pulse rounded-full"
-                            aria-label="Action required"
-                          />
-                        )}
-                      </Link>
-                    </SidebarMenuButton>
+                        <IconChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                      </SidebarMenuButton>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent>
+                      <SidebarMenuSub>
+                        {item.items.map((subItem) => (
+                          <SidebarMenuSubItem key={subItem.title}>
+                            <SidebarMenuSubButton
+                              asChild
+                              isActive={pathname === subItem.url}
+                            >
+                              <Link href={subItem.url}>
+                                <span>{subItem.title}</span>
+                              </Link>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                        ))}
+                      </SidebarMenuSub>
+                    </CollapsibleContent>
                   </SidebarMenuItem>
-                );
-              },
-            )}
+                </Collapsible>
+              ) : (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton
+                    asChild
+                    tooltip={item.title}
+                    isActive={pathname === item.url}
+                  >
+                    <Link href={item.url}>
+                      <Icon />
+                      <span>{item.title}</span>
+                      {item.url === "/dashboard/ssi" && showSsiPulse && (
+                        <span
+                          className="bg-primary ml-2 inline-block h-2 w-2 animate-pulse rounded-full"
+                          aria-label="Action required"
+                        />
+                      )}
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              );
+            })}
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
