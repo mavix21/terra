@@ -4,8 +4,8 @@ import { DynamicUserProfile } from "@dynamic-labs/sdk-react-core";
 
 import { SidebarInset, SidebarProvider } from "@terra/ui/components/sidebar";
 
+import AppSidebar from "@/app/(app)/[locale]/dashboard/app-sidebar";
 import KBar from "@/shared/ui/kbar";
-import AppSidebar from "@/shared/ui/layout/app-sidebar";
 import Header from "@/shared/ui/layout/header";
 
 export const metadata: Metadata = {

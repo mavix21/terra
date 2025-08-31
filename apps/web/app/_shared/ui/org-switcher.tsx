@@ -22,27 +22,22 @@ interface Tenant {
 
 export function OrgSwitcher({
   tenants,
-  defaultTenant,
-  onTenantSwitch,
+  selectedTenantId,
+  onTenantSwitchAction,
 }: {
   tenants: Tenant[];
-  defaultTenant: Tenant;
-  onTenantSwitch?: (tenantId: string) => void;
+  selectedTenantId: string;
+  onTenantSwitchAction?: (tenantId: string) => void;
 }) {
-  const [selectedTenant, setSelectedTenant] = React.useState<
-    Tenant | undefined
-  >(defaultTenant || (tenants.length > 0 ? tenants[0] : undefined));
+  if (tenants.length === 0) return null;
+
+  const foundTenant = tenants.find((t) => t.id === selectedTenantId);
+  const selectedName = foundTenant?.name ?? tenants[0]?.name ?? "";
 
   const handleTenantSwitch = (tenant: Tenant) => {
-    setSelectedTenant(tenant);
-    if (onTenantSwitch) {
-      onTenantSwitch(tenant.id);
-    }
+    onTenantSwitchAction?.(tenant.id);
   };
 
-  if (!selectedTenant) {
-    return null;
-  }
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -56,8 +51,8 @@ export function OrgSwitcher({
                 <GalleryVerticalEnd className="size-4" />
               </div>
               <div className="flex flex-col gap-0.5 leading-none">
-                <span className="font-semibold">Next Starter</span>
-                <span className="">{selectedTenant.name}</span>
+                <span className="font-semibold">Terra</span>
+                <span className="">{selectedName}</span>
               </div>
               <ChevronsUpDown className="ml-auto" />
             </SidebarMenuButton>
@@ -72,7 +67,7 @@ export function OrgSwitcher({
                 onSelect={() => handleTenantSwitch(tenant)}
               >
                 {tenant.name}{" "}
-                {tenant.id === selectedTenant.id && (
+                {tenant.id === selectedTenantId && (
                   <Check className="ml-auto" />
                 )}
               </DropdownMenuItem>

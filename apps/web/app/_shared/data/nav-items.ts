@@ -49,6 +49,16 @@ export const producerNavItems: NavItem[] = [
   },
 ];
 
+export const buyerNavItems: NavItem[] = [
+  {
+    title: "SSI Verification",
+    url: "/dashboard/ssi",
+    icon: "user",
+    isActive: true,
+    items: [],
+  },
+];
+
 export interface SaleUser {
   id: number;
   name: string;

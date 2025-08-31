@@ -13,7 +13,11 @@ import { auth } from "@/auth";
 import { routing } from "@/shared/i18n/routing";
 import { ThemeProvider } from "@/shared/ui/theme-provider";
 
-import { ConvexClientProvider, OnchainProviders } from "../_providers";
+import {
+  ConvexClientProvider,
+  OnchainProviders,
+  ProfileProvider,
+} from "../_providers";
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -57,7 +61,9 @@ export default async function RootLayout({
           <NextIntlClientProvider>
             <OnchainProviders cookie={cookie}>
               <ConvexClientProvider session={session}>
-                <NuqsAdapter>{children}</NuqsAdapter>
+                <ProfileProvider>
+                  <NuqsAdapter>{children}</NuqsAdapter>
+                </ProfileProvider>
               </ConvexClientProvider>
             </OnchainProviders>
           </NextIntlClientProvider>
