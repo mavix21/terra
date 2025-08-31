@@ -15,7 +15,7 @@ import { CATEGORY_OPTIONS } from "./options";
 export const columns: ColumnDef<Product>[] = [
   {
     accessorKey: "photo_url",
-    header: "IMAGE",
+    header: "Image",
     cell: ({ row }) => {
       return (
         <div className="relative aspect-square h-16 w-16 overflow-hidden sm:h-20 sm:w-20">
@@ -72,11 +72,11 @@ export const columns: ColumnDef<Product>[] = [
   },
   {
     accessorKey: "price",
-    header: "PRICE",
+    header: "Price (ETH)",
   },
   {
     accessorKey: "description",
-    header: "DESCRIPTION",
+    header: "Description",
   },
 
   {
