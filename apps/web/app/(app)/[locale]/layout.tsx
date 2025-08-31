@@ -1,5 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 
+import { Toaster } from "@terra/ui/components/sonner";
+
 import "@terra/ui/globals.css";
 
 import type { Metadata } from "next";
@@ -68,6 +70,7 @@ export default async function RootLayout({
             </OnchainProviders>
           </NextIntlClientProvider>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );
