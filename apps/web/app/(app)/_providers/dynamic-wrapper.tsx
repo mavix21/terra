@@ -40,8 +40,7 @@ export default function DynamicProvider({ children }: React.PropsWithChildren) {
         environmentId: env.NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID,
         walletConnectors: [EthereumWalletConnectors],
         overrides: {
-          evmNetworks: (networks) =>
-            mergeNetworks([listSepoliaNetwork], networks),
+          evmNetworks: [listSepoliaNetwork],
         },
         events: {
           onAuthSuccess: (_event) => {
