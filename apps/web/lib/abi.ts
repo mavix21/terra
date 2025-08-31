@@ -1,116 +1,52 @@
 export const abi = [
-  {
-    inputs: [],
-    stateMutability: "nonpayable",
-    type: "constructor",
-  },
+  { inputs: [], stateMutability: "nonpayable", type: "constructor" },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "sender",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "balance",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "needed",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
+      { internalType: "address", name: "sender", type: "address" },
+      { internalType: "uint256", name: "balance", type: "uint256" },
+      { internalType: "uint256", name: "needed", type: "uint256" },
+      { internalType: "uint256", name: "tokenId", type: "uint256" },
     ],
     name: "ERC1155InsufficientBalance",
     type: "error",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "approver",
-        type: "address",
-      },
-    ],
+    inputs: [{ internalType: "address", name: "approver", type: "address" }],
     name: "ERC1155InvalidApprover",
     type: "error",
   },
   {
     inputs: [
-      {
-        internalType: "uint256",
-        name: "idsLength",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "valuesLength",
-        type: "uint256",
-      },
+      { internalType: "uint256", name: "idsLength", type: "uint256" },
+      { internalType: "uint256", name: "valuesLength", type: "uint256" },
     ],
     name: "ERC1155InvalidArrayLength",
     type: "error",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "operator",
-        type: "address",
-      },
-    ],
+    inputs: [{ internalType: "address", name: "operator", type: "address" }],
     name: "ERC1155InvalidOperator",
     type: "error",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "receiver",
-        type: "address",
-      },
-    ],
+    inputs: [{ internalType: "address", name: "receiver", type: "address" }],
     name: "ERC1155InvalidReceiver",
     type: "error",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "sender",
-        type: "address",
-      },
-    ],
+    inputs: [{ internalType: "address", name: "sender", type: "address" }],
     name: "ERC1155InvalidSender",
     type: "error",
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "operator",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "owner",
-        type: "address",
-      },
+      { internalType: "address", name: "operator", type: "address" },
+      { internalType: "address", name: "owner", type: "address" },
     ],
     name: "ERC1155MissingApprovalForAll",
     type: "error",
   },
-  {
-    inputs: [],
-    name: "ReentrancyGuardReentrantCall",
-    type: "error",
-  },
+  { inputs: [], name: "ReentrancyGuardReentrantCall", type: "error" },
   {
     anonymous: false,
     inputs: [
@@ -126,12 +62,7 @@ export const abi = [
         name: "operator",
         type: "address",
       },
-      {
-        indexed: false,
-        internalType: "bool",
-        name: "approved",
-        type: "bool",
-      },
+      { indexed: false, internalType: "bool", name: "approved", type: "bool" },
     ],
     name: "ApprovalForAll",
     type: "event",
@@ -185,29 +116,42 @@ export const abi = [
       {
         indexed: true,
         internalType: "address",
-        name: "buyer",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
         name: "producer",
         type: "address",
       },
       {
         indexed: false,
         internalType: "uint256",
-        name: "amount",
+        name: "totalAmount",
         type: "uint256",
+      },
+    ],
+    name: "CoffeeTokensDistributed",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "buyer",
+        type: "address",
       },
       {
         indexed: false,
         internalType: "uint256",
-        name: "totalCost",
+        name: "amountContributed",
         type: "uint256",
       },
     ],
-    name: "CoffeePurchased",
+    name: "ContributionMade",
     type: "event",
   },
   {
@@ -219,18 +163,8 @@ export const abi = [
         name: "operator",
         type: "address",
       },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "from",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
+      { indexed: true, internalType: "address", name: "from", type: "address" },
+      { indexed: true, internalType: "address", name: "to", type: "address" },
       {
         indexed: false,
         internalType: "uint256[]",
@@ -256,24 +190,9 @@ export const abi = [
         name: "operator",
         type: "address",
       },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "from",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "id",
-        type: "uint256",
-      },
+      { indexed: true, internalType: "address", name: "from", type: "address" },
+      { indexed: true, internalType: "address", name: "to", type: "address" },
+      { indexed: false, internalType: "uint256", name: "id", type: "uint256" },
       {
         indexed: false,
         internalType: "uint256",
@@ -287,127 +206,89 @@ export const abi = [
   {
     anonymous: false,
     inputs: [
-      {
-        indexed: false,
-        internalType: "string",
-        name: "value",
-        type: "string",
-      },
-      {
-        indexed: true,
-        internalType: "uint256",
-        name: "id",
-        type: "uint256",
-      },
+      { indexed: false, internalType: "string", name: "value", type: "string" },
+      { indexed: true, internalType: "uint256", name: "id", type: "uint256" },
     ],
     name: "URI",
     type: "event",
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "id",
-        type: "uint256",
-      },
+      { internalType: "address", name: "account", type: "address" },
+      { internalType: "uint256", name: "id", type: "uint256" },
     ],
     name: "balanceOf",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      {
-        internalType: "address[]",
-        name: "accounts",
-        type: "address[]",
-      },
-      {
-        internalType: "uint256[]",
-        name: "ids",
-        type: "uint256[]",
-      },
+      { internalType: "address[]", name: "accounts", type: "address[]" },
+      { internalType: "uint256[]", name: "ids", type: "uint256[]" },
     ],
     name: "balanceOfBatch",
-    outputs: [
-      {
-        internalType: "uint256[]",
-        name: "",
-        type: "uint256[]",
-      },
-    ],
+    outputs: [{ internalType: "uint256[]", name: "", type: "uint256[]" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      {
-        internalType: "uint256",
-        name: "_tokenId",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
+      { internalType: "uint256", name: "_tokenId", type: "uint256" },
+      { internalType: "uint256", name: "_fractionsToBuy", type: "uint256" },
     ],
-    name: "buyCoffee",
+    name: "contributeToBuy",
     outputs: [],
     stateMutability: "payable",
     type: "function",
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "operator",
-        type: "address",
-      },
+      { internalType: "uint256", name: "", type: "uint256" },
+      { internalType: "address", name: "", type: "address" },
     ],
-    name: "isApprovedForAll",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
+    name: "contributedAmount",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
+      { internalType: "uint256", name: "", type: "uint256" },
+      { internalType: "uint256", name: "", type: "uint256" },
+    ],
+    name: "contributions",
+    outputs: [
+      { internalType: "address", name: "buyer", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "_tokenId", type: "uint256" }],
+    name: "distributeTokens",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "account", type: "address" },
+      { internalType: "address", name: "operator", type: "address" },
+    ],
+    name: "isApprovedForAll",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "_supply", type: "uint256" },
+      { internalType: "string", name: "_fullMetadataURI", type: "string" },
       {
         internalType: "uint256",
-        name: "_supply",
-        type: "uint256",
-      },
-      {
-        internalType: "string",
-        name: "_fullMetadataURI",
-        type: "string",
-      },
-      {
-        internalType: "uint256",
-        name: "_priceInWei",
+        name: "_pricePerFractionInWei",
         type: "uint256",
       },
     ],
@@ -417,51 +298,26 @@ export const abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
+    inputs: [],
+    name: "name",
+    outputs: [{ internalType: "string", name: "", type: "string" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     name: "pricesInWei",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "from",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
-      {
-        internalType: "uint256[]",
-        name: "ids",
-        type: "uint256[]",
-      },
-      {
-        internalType: "uint256[]",
-        name: "values",
-        type: "uint256[]",
-      },
-      {
-        internalType: "bytes",
-        name: "data",
-        type: "bytes",
-      },
+      { internalType: "address", name: "from", type: "address" },
+      { internalType: "address", name: "to", type: "address" },
+      { internalType: "uint256[]", name: "ids", type: "uint256[]" },
+      { internalType: "uint256[]", name: "values", type: "uint256[]" },
+      { internalType: "bytes", name: "data", type: "bytes" },
     ],
     name: "safeBatchTransferFrom",
     outputs: [],
@@ -470,31 +326,11 @@ export const abi = [
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "from",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "id",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "value",
-        type: "uint256",
-      },
-      {
-        internalType: "bytes",
-        name: "data",
-        type: "bytes",
-      },
+      { internalType: "address", name: "from", type: "address" },
+      { internalType: "address", name: "to", type: "address" },
+      { internalType: "uint256", name: "id", type: "uint256" },
+      { internalType: "uint256", name: "value", type: "uint256" },
+      { internalType: "bytes", name: "data", type: "bytes" },
     ],
     name: "safeTransferFrom",
     outputs: [],
@@ -503,16 +339,8 @@ export const abi = [
   },
   {
     inputs: [
-      {
-        internalType: "address",
-        name: "operator",
-        type: "address",
-      },
-      {
-        internalType: "bool",
-        name: "approved",
-        type: "bool",
-      },
+      { internalType: "address", name: "operator", type: "address" },
+      { internalType: "bool", name: "approved", type: "bool" },
     ],
     name: "setApprovalForAll",
     outputs: [],
@@ -520,72 +348,44 @@ export const abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "bytes4",
-        name: "interfaceId",
-        type: "bytes4",
-      },
-    ],
+    inputs: [{ internalType: "bytes4", name: "interfaceId", type: "bytes4" }],
     name: "supportsInterface",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
+    inputs: [],
+    name: "symbol",
+    outputs: [{ internalType: "string", name: "", type: "string" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     name: "tokenCreator",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
+    outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "tokenIdCounter",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_tokenId",
-        type: "uint256",
-      },
-    ],
+    inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    name: "totalRaised",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "_tokenId", type: "uint256" }],
     name: "uri",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
+    outputs: [{ internalType: "string", name: "", type: "string" }],
     stateMutability: "view",
     type: "function",
   },
