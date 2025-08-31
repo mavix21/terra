@@ -6,6 +6,7 @@ import type { Coffee, CoffeeShop, CollectedPoap } from "@/lib/mock-data";
 
 import { CoffeeShopSideSheet } from "./coffee-shop-side-sheet";
 import { CollectionsPage } from "./collections-page";
+import { HomePage } from "./home-page";
 import { MapView } from "./navigation/map-view";
 import { NavigationSidebar } from "./navigation/navigation-sidebar";
 import { PoapMintingModal } from "./poap-minting-modal";
@@ -36,7 +37,7 @@ function t(key: string): string {
 }
 
 export function ConsumerPage() {
-  const [activeSection, setActiveSection] = useState("map");
+  const [activeSection, setActiveSection] = useState("home");
   const [selectedShopId, setSelectedShopId] = useState<string | null>(null);
   const [mintingModal, setMintingModal] = useState<{
     isOpen: boolean;
@@ -79,6 +80,12 @@ export function ConsumerPage() {
 
   const renderContent = () => {
     switch (activeSection) {
+      case "home":
+        return (
+          <div className="h-full pb-20 sm:pb-24">
+            <HomePage onNavigate={setActiveSection} />
+          </div>
+        );
       case "map":
         return (
           <div className="absolute inset-0 pb-20 sm:pb-24">

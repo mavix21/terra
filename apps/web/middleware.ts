@@ -6,7 +6,7 @@ import { locales, routing } from "./app/_shared/i18n";
 import { auth } from "./auth";
 import { BASE_URL } from "./lib/constants";
 
-const publicPages = ["/", "/auth/sign-in", "/test"];
+const publicPages = ["/", "/auth/sign-in", "/consumer"];
 
 const intlMiddleware = createIntlMiddleware(routing);
 

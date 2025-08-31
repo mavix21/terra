@@ -1,7 +1,5 @@
-import { IconRocket } from "@tabler/icons-react";
-
-import { ConsumerPage } from "@/app/_pages/consumer/consumer-page";
+import SinglePage from "@/app/_pages/marketing/single-page";
 
 export default function HomePage() {
-  return <ConsumerPage />;
+  return <SinglePage />;
 }

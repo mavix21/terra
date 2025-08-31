@@ -1,6 +1,6 @@
 "use client";
 
-import { Gem, Map, Moon, Search, Sun, Trophy } from "lucide-react";
+import { Gem, Home, Map, Moon, Search, Sun, Trophy } from "lucide-react";
 import { useTheme } from "next-themes";
 
 import { Button } from "@terra/ui/components/button";
@@ -18,6 +18,7 @@ interface NavigationSidebarProps {
 }
 
 const navigationItems = [
+  { id: "home", icon: Home, label: "navigation.home" },
   { id: "map", icon: Map, label: "navigation.map" },
   { id: "search", icon: Search, label: "navigation.search" },
   { id: "rewards", icon: Trophy, label: "navigation.rewards" },
@@ -27,6 +28,7 @@ const navigationItems = [
 // Mock i18n function
 function t(key: string): string {
   const translations: Record<string, string> = {
+    "navigation.home": "Inicio",
     "navigation.map": "Mapa",
     "navigation.search": "Buscar",
     "navigation.rewards": "Recompensas",
