@@ -8,7 +8,8 @@ This repository is a pnpm monorepo. It consists of the following main parts:
 
 - `apps/web`: This is the main Next.js application. It contains all the user-facing pages, API routes, and application-specific logic.
 - `packages/ui`: This package holds all the shared UI components, primarily built using shadcn/ui. These components are designed to be reusable across different parts of the application or even other applications within the monorepo in the future
-- `packages/contracts`: This package contains the hardhat project for the smart contracts.
+- `packages/s-contracts`: This package contains the Hardhat project for the smart contracts (configured for Lisk Sepolia Testnet).
+- `packages/convex`: This package contains Convex backend code (schema, functions, tables) used by the app.
 - `tooling/`: This directory contains configuration files for common development tools like ESLint, Prettier, TypeScript, etc., ensuring consistent code quality and development experience across the monorepo.
 
 ## 🧰 Tech Stack
@@ -16,9 +17,8 @@ This repository is a pnpm monorepo. It consists of the following main parts:
 - **Next.js 15 & Turbopack:** Modern, fast, and scalable React framework for the frontend.
 
 - **Blockchain Integration (Web3):**
-
   - Utilizes Wagmi, and Viem for connecting to and interacting with Lisk and EVM-compatible blockchains.
-  - Interacts with smart contracts deployed via the Hardhat project in `packages/contracts`.
+  - Interacts with smart contracts deployed via the Hardhat project in `packages/s-contracts`.
   - Supports "Sign-In with Ethereum" (SIWE) via `@reown/appkit-siwe`.
 
 - **Convex Backend:** Reactive backend-as-a-service for data storage, server functions, and real-time updates.
