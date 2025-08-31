@@ -1,6 +1,6 @@
 "use client";
 
-import { ConvexReactClient } from "convex/react";
+import { useMutation } from "convex/react";
 import { getCsrfToken, getSession, signOut } from "next-auth/react";
 
 import { api } from "@terra/convex/convex/_generated/api";
@@ -12,7 +12,6 @@ import {
   DynamicContextProvider,
   EthereumWalletConnectors,
   getAuthToken,
-  mergeNetworks,
 } from "@/lib/dynamic";
 
 const listSepoliaNetwork = {
@@ -32,7 +31,7 @@ const listSepoliaNetwork = {
 
 export default function DynamicProvider({ children }: React.PropsWithChildren) {
   const router = useRouter();
-  const convex = new ConvexReactClient(env.NEXT_PUBLIC_CONVEX_URL);
+  const createUserIfNotExists = useMutation(api.users.createUserIfNotExists);
 
   return (
     <DynamicContextProvider
@@ -79,15 +78,16 @@ export default function DynamicProvider({ children }: React.PropsWithChildren) {
         },
         handlers: {
           handleAuthenticatedUser: async (event) => {
-            const walletAddress = (event.user.verifiedCredentials.find(
-              (credential) => credential.address !== undefined,
-            )?.address ?? "0x") as `0x${string}`;
+            const walletAddress =
+              event.user.verifiedCredentials.find(
+                (credential) => credential.address !== undefined,
+              )?.address ?? "0x";
             console.log("walletAddress", walletAddress);
             console.log("event", event);
 
             if (walletAddress !== "0x" && event.user.email !== undefined) {
               try {
-                await convex.mutation(api.users.createUserIfNotExists, {
+                await createUserIfNotExists({
                   email: event.user.email,
                   walletAddress,
                 });
