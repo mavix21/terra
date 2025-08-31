@@ -1,86 +1,217 @@
 # Terra
 
-Project description
+Fractional ownership for specialty coffee microlots. Producers tokenize microlots as ERC-1155 assets, buyers acquire fractional tokens transparently, and everyone tracks provenance and activity in real time.
+
+### Why it matters
+
+- **For producers**: Upfront liquidity and global reach by selling fractions of a lot.
+- **For buyers/roasters**: Transparent provenance and the ability to support specific farms and lots.
+- **For the ecosystem**: Open, on-chain settlement optionality with real-time off-chain UX.
+
+---
 
 ## 📦 Monorepo Structure
 
 This repository is a pnpm monorepo. It consists of the following main parts:
 
-- `apps/web`: This is the main Next.js application. It contains all the user-facing pages, API routes, and application-specific logic.
-- `packages/ui`: This package holds all the shared UI components, primarily built using shadcn/ui. These components are designed to be reusable across different parts of the application or even other applications within the monorepo in the future
-- `packages/s-contracts`: This package contains the Hardhat project for the smart contracts (configured for Lisk Sepolia Testnet).
-- `packages/convex`: This package contains Convex backend code (schema, functions, tables) used by the app.
-- `tooling/`: This directory contains configuration files for common development tools like ESLint, Prettier, TypeScript, etc., ensuring consistent code quality and development experience across the monorepo.
+- `apps/web`: Next.js 15 application (UI, pages, API routes, auth, providers).
+- `packages/ui`: Shared UI library (shadcn/ui-based) published as `@terra/ui`.
+- `packages/s-contracts`: Hardhat project containing the ERC-1155 smart contract(s) for Lisk Sepolia.
+- `packages/convex`: Convex backend code (schema, functions, tables, storage, auth adapter).
+- `tooling/`: Shared configs for ESLint, Prettier, TypeScript, etc.
 
 ## 🧰 Tech Stack
 
-- **Next.js 15 & Turbopack:** Modern, fast, and scalable React framework for the frontend.
+- **Next.js 15 & Turbopack**
+- **Auth**: NextAuth.js (Credentials flow from wallet auth via Dynamic)
+- **Web3**: Wagmi + Viem, Lisk Sepolia network
+- **Backend**: Convex (functions, tables, storage, auth integration)
+- **i18n**: next-intl
+- **UI**: shadcn/ui via `@terra/ui`, Tailwind v4
+- **Forms/Validation**: react-hook-form + zod
+- **IPFS**: Pinata (JWT), configurable gateway
 
-- **Blockchain Integration (Web3):**
-  - Utilizes Wagmi, and Viem for connecting to and interacting with Lisk and EVM-compatible blockchains.
-  - Interacts with smart contracts deployed via the Hardhat project in `packages/s-contracts`.
-  - Supports "Sign-In with Ethereum" (SIWE) via `@reown/appkit-siwe`.
+## ✨ Core Features
 
-- **Convex Backend:** Reactive backend-as-a-service for data storage, server functions, and real-time updates.
+- **Wallet sign-in** with Dynamic; session persisted via NextAuth (credentials provider).
+- **Producers create microlots** with variety, altitude, processing, price, supply, image, and metadata URI.
+- **Buyers purchase fractions**; holdings and purchases are recorded and visible in the dashboard.
+- **Real-time updates** via Convex React client and storage-backed media.
+- **On-chain contract** (ERC-1155) included for tokenization, with deployment scripts to Lisk Sepolia.
 
-- **User Authentication:** Robust authentication system using NextAuth.js (`@auth/core`, `next-auth`).
-
-- **Rich Text Editing:** Includes a Tiptap-based rich text editor for content creation.
-
-- **File Uploads & IPFS:** Supports file uploads with `react-dropzone`, using Pinata for decentralized storage on IPFS.
-
-- **Internationalization (i18n):** Built with `next-intl` to support multiple languages.
-
-- **Robust Form Handling:** Uses `react-hook-form` and `zod` for creating and validating forms.
-
-- **Custom UI Library:** Leverages `@terra/ui` for a consistent look and feel, built with shadcn/ui components.
-
-- **Server State Management:** Uses `@tanstack/react-query` for managing server state and caching.
-
-- **Modern Tooling:** Includes ESLint, Prettier, TypeScript for code quality and development experience.
-
-- ...and more!
+Note: The included smart contract (`TerraFactory`) supports fractional contributions and distribution. The current web app records purchases in Convex; on-chain settlement can be wired via Viem calls as a next step.
 
 ## 🚀 Getting Started
 
-Follow these instructions to get the project up and running on your local machine for development and testing purposes.
+Follow these steps to run Terra locally.
 
 ### Prerequisites
 
-- Node.js (version specified in `.nvmrc` - make sure to use a Node version manager like nvm or fnm)
-- pnpm (version specified in `package.json` under `packageManager`)
+- Node.js 20+ (see `.nvmrc`)
+- pnpm (see `packageManager` in `package.json`)
+- A Convex project (or use `convex dev` locally)
+- A Dynamic Labs project (for wallet auth)
+- A Pinata account (for IPFS uploads)
 
-### Installation
+### 1) Install dependencies
 
-1.  **Clone the repository:**
+```bash
+pnpm install
+```
 
-    ```bash
-    git clone *repo-url*
-    cd terra
-    ```
+### 2) Configure environment
 
-2.  **Install dependencies:**
-    This project uses pnpm workspaces. Install all dependencies from the root of the monorepo:
-    ```bash
-    pnpm install
-    ```
+Create a `.env` file at the monorepo root (the web app loads `../../.env`). Use this template and fill in your values:
 
-### Environment Variables
+```bash
+# ---------- Public (client) ----------
+NEXT_PUBLIC_CONVEX_URL="https://<your-convex>.convex.cloud"
+NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID="<dynamic_environment_id>"
+NEXT_PUBLIC_GATEWAY_URL="https://gateway.pinata.cloud/ipfs/"
 
-The Next.js application in `apps/web` requires some environment variables to run correctly.
+# ---------- Server (web) ----------
+AUTH_SECRET="<nextauth_secret>"
+CONVEX_AUTH_PRIVATE_KEY="<rsa_pkcs8_private_key_for_RS256>"
+CONVEX_AUTH_ADAPTER_SECRET="<long_random_string>"
+NEXT_DYNAMIC_BEARER_TOKEN="<dynamic_server_bearer_token>"
+PINATA_JWT="<pinata_jwt>"
 
-1.  Create a `.env.local` file by copying the example environment file
+# ---------- Convex (CLI/hosting) ----------
+CONVEX_DEPLOY_KEY="<optional_if_deploying>"
+CONVEX_SITE_URL="https://<your-convex>.site"
 
-    ```bash
-    cp .env.example .env.local
-    ```
+# ---------- Optional (production) ----------
+NEXTAUTH_URL="https://your-deployment.example"
+PORT=3000
+```
 
-### Running the Development Server
+How to obtain values:
 
-1.  To start the development server for the Next.js web application from the root:
+- **Convex**: Run `pnpm -F @terra/convex dev` to bootstrap a dev instance and copy the printed URL for `NEXT_PUBLIC_CONVEX_URL`. In hosted projects, get URLs and deploy keys from the Convex dashboard.
+- **Dynamic**: Create a project, then copy the Environment ID (client) and a bearer token (server) for `NEXT_DYNAMIC_BEARER_TOKEN`.
+- **Auth secrets**: Generate with `openssl rand -base64 32` (or use NextAuth tool) for `AUTH_SECRET` and `CONVEX_AUTH_ADAPTER_SECRET`.
+- **Pinata**: Create a JWT in Pinata settings.
+- **RSA key**: `CONVEX_AUTH_PRIVATE_KEY` should be an RSA PKCS#8 private key string used to mint Convex identities in the session callback.
 
-    ```bash
-    pnpm dev
-    ```
+### 3) Start the app
 
-    The application should now be running on [http://localhost:3000](http://localhost:3000) (or the port specified in your Next.js configuration).
+From the monorepo root:
+
+```bash
+pnpm dev
+```
+
+The web app will be available at `http://localhost:3000`.
+
+If you prefer running services individually:
+
+```bash
+# Start Convex dev (prints a dev URL)
+pnpm -F @terra/convex dev
+
+# In another terminal, start the web app
+pnpm -F web dev
+```
+
+## 🧪 Smart Contracts (Lisk Sepolia)
+
+Contracts live in `packages/s-contracts`.
+
+- Main contract: `contracts/Terra.sol` (ERC-1155 fractionalization via `TerraFactory`)
+- Networks: `liskSepolia` configured; Hardhat also includes Sepolia as example
+
+Common commands:
+
+```bash
+# From repo root or package dir
+pnpm -F s-contracts build
+pnpm -F s-contracts compile
+
+# Show signer (requires DEPLOYER_PRIVATE_KEY in .env)
+pnpm -F s-contracts node scripts/show-signer.ts
+
+# Deploy via Ignition/script (ensure RPC + key are set)
+pnpm -F s-contracts node scripts/deployOptions.mjs
+```
+
+Required env for contracts:
+
+```bash
+DEPLOYER_PRIVATE_KEY="<hex_private_key>"   # with or without 0x prefix
+```
+
+Hardhat uses the public Lisk Sepolia RPC `https://rpc.sepolia-api.lisk.com` by default.
+
+## 🗄️ Convex Backend
+
+- Schema: `packages/convex/convex/schema.ts`
+- Key tables: `users`, `microlots`, `microlotPurchases`, `tokenHoldings`, `producers`, `coffeeShops`, `buyerVerifications`
+- Auth adapter: `packages/convex/convex/authAdapter.ts` and `auth.config.ts`
+- Selected functions:
+  - `users.createUserIfNotExists`, `users.getUserIdByEmail`
+  - `microlots.createMicrolot`, `microlots.listMicrolotsPaginated`, `microlots.buyTokens`
+
+Run locally:
+
+```bash
+pnpm -F @terra/convex dev
+```
+
+## 🔑 Authentication Flow
+
+- Wallet connection and auth handled by Dynamic (`apps/web/app/(app)/_providers/dynamic-wrapper.tsx`).
+- On successful wallet auth, a credentials token is posted to NextAuth.
+- Session callback (see `apps/web/auth.ts`) ensures the user exists in Convex and attaches the Convex subject to the session.
+
+## 📊 App Highlights
+
+- Responsive dashboard and UI components from `@terra/ui`.
+- Charts and tables for marketplace and ownership views.
+- i18n-ready routing under `apps/web/app/(app)/[locale]/*`.
+
+## 📜 Scripts
+
+Root scripts:
+
+```bash
+pnpm dev           # Start monorepo dev (web, etc.)
+pnpm build         # Build all
+pnpm typecheck     # Type-check all
+pnpm lint          # Lint all
+pnpm format        # Prettier check
+```
+
+Web app scripts (`apps/web`):
+
+```bash
+pnpm -F web dev        # Next.js dev with Turbopack
+pnpm -F web build
+pnpm -F web start
+```
+
+Convex scripts (`packages/convex`):
+
+```bash
+pnpm -F @terra/convex dev
+pnpm -F @terra/convex setup
+```
+
+Smart contracts (`packages/s-contracts`): see Smart Contracts section above.
+
+## ✅ Development Tips
+
+- Ensure `.env` is at the repo root (the web app reads `../../.env`).
+- If auth fails locally, verify `AUTH_SECRET`, `CONVEX_AUTH_PRIVATE_KEY`, and `CONVEX_AUTH_ADAPTER_SECRET` are set and consistent.
+- After starting Convex dev, update `NEXT_PUBLIC_CONVEX_URL` with the printed URL.
+- For Lisk Sepolia, add the network to your wallet if not present.
+
+## 📄 License
+
+MIT (or project-appropriate). Replace this line with the chosen license if different.
+
+## 🙋 Project Links (for judges)
+
+- Live demo: https://terra-sandy.vercel.app/
+- Demo video: <add link>
+- Deck/one-pager: <add link>
+- Contact: <name / email / X handle>
