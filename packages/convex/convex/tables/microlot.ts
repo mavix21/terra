@@ -3,7 +3,7 @@ import { v } from "convex/values";
 
 export const microlotsTable = defineTable({
   tokenId: v.number(),
-  producerId: v.id("producers"),
+  producerId: v.id("users"),
   variety: v.string(),
   altitude: v.number(),
   harvestDate: v.string(),
