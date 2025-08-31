@@ -61,13 +61,13 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <NextIntlClientProvider>
-            <OnchainProviders cookie={cookie}>
-              <ConvexClientProvider session={session}>
+            <ConvexClientProvider session={session}>
+              <OnchainProviders cookie={cookie}>
                 <ProfileProvider>
                   <NuqsAdapter>{children}</NuqsAdapter>
                 </ProfileProvider>
-              </ConvexClientProvider>
-            </OnchainProviders>
+              </OnchainProviders>
+            </ConvexClientProvider>
           </NextIntlClientProvider>
         </ThemeProvider>
         <Toaster />
