@@ -19,10 +19,10 @@ interface NavigationSidebarProps {
 
 const navigationItems = [
   { id: "home", icon: Home, label: "navigation.home" },
-  { id: "map", icon: Map, label: "navigation.map" },
   { id: "search", icon: Search, label: "navigation.search" },
   { id: "rewards", icon: Trophy, label: "navigation.rewards" },
   { id: "collections", icon: Gem, label: "navigation.collections" },
+  { id: "map", icon: Map, label: "navigation.map" },
 ];
 
 // Mock i18n function

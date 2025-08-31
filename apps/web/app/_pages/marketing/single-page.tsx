@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { Button } from "@terra/ui/components/button";
 
@@ -36,18 +36,33 @@ const slides = [
 
 export default function SinglePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Auto-cycle through slides
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    const startTimer = () => {
+      timerRef.current = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % slides.length);
+      }, 5000);
+    };
 
-    return () => clearInterval(timer);
+    startTimer();
+
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    };
   }, []);
 
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+    }
+    timerRef.current = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 5000);
   };
 
   return (

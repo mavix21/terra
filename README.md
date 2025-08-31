@@ -1,4 +1,4 @@
-# [Project Name]
+# Terra 🌱
 
 Project description
 
@@ -17,7 +17,7 @@ This repository is a pnpm monorepo. It consists of the following main parts:
 
 - **Blockchain Integration (Web3):**
 
-  - Utilizes OnchainKit, Wagmi, and Viem for connecting to and interacting with EVM-compatible blockchains.
+  - Utilizes Wagmi, and Viem for connecting to and interacting with Lisk and EVM-compatible blockchains.
   - Interacts with smart contracts deployed via the Hardhat project in `packages/contracts`.
   - Supports "Sign-In with Ethereum" (SIWE) via `@reown/appkit-siwe`.
 

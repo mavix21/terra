@@ -33,7 +33,7 @@ function t(key: string): string {
     "coffee.origin": "Origin",
     "shop.availableCoffees": "Available Coffees",
   };
-  return translations[key] || key;
+  return translations[key] ?? key;
 }
 
 export function CoffeeShopSideSheet({
@@ -55,7 +55,7 @@ export function CoffeeShopSideSheet({
   if (!shopId) return null;
 
   const shop = coffeeShops.find((s) => s.id === shopId);
-  const shopCoffees = coffees[shopId] || [];
+  const shopCoffees = coffees[shopId] ?? [];
 
   if (!shop) return null;
 
@@ -115,7 +115,7 @@ export function CoffeeShopSideSheet({
                 : "translate-y-4 opacity-0",
             )}
           >
-            <div className="space-y-4">
+            <div className="space-y-3">
               <h3 className="text-card-foreground mb-4 text-base font-medium sm:text-lg">
                 {t("shop.availableCoffees")}
               </h3>
@@ -127,7 +127,7 @@ export function CoffeeShopSideSheet({
                   <Card
                     key={coffee.id}
                     className={cn(
-                      "transition-all duration-200 hover:scale-[1.02] hover:shadow-md",
+                      "gap-0 py-0 transition-all duration-200 hover:scale-[1.02] hover:shadow-md",
                       isVisible
                         ? "translate-x-0 opacity-100"
                         : "translate-x-8 opacity-0",
@@ -139,17 +139,22 @@ export function CoffeeShopSideSheet({
                     }}
                   >
                     <CardHeader
-                      className="cursor-pointer p-4 sm:p-6"
+                      className="cursor-pointer p-3 sm:p-4"
                       onClick={() => toggleCoffeeExpansion(coffee.id)}
                     >
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <CardTitle className="text-sm sm:text-base">
-                            {coffee.name}
-                          </CardTitle>
-                          <p className="text-muted-foreground text-xs sm:text-sm">
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-2">
+                            <CardTitle className="truncate text-sm font-medium sm:text-base">
+                              {coffee.name}
+                            </CardTitle>
+                            <span className="text-muted-foreground hidden truncate text-xs sm:inline">
+                              {t("coffee.origin")}: {coffee.origin}
+                            </span>
+                          </div>
+                          <span className="text-muted-foreground text-xs sm:hidden">
                             {t("coffee.origin")}: {coffee.origin}
-                          </p>
+                          </span>
                         </div>
                         {isExpanded ? (
                           <ChevronUp className="text-muted-foreground h-4 w-4" />
@@ -161,14 +166,14 @@ export function CoffeeShopSideSheet({
 
                     <CardContent
                       className={cn(
-                        "overflow-hidden p-4 pt-0 transition-all duration-200 sm:p-6",
+                        "overflow-hidden transition-all duration-200",
                         isExpanded
-                          ? "max-h-96 opacity-100"
-                          : "max-h-0 opacity-0",
+                          ? "max-h-96 px-3 pt-0 pb-3 opacity-100 sm:px-4 sm:pb-4"
+                          : "max-h-0 p-0 opacity-0",
                       )}
                     >
-                      <div className="mb-4 space-y-3">
-                        <div className="grid grid-cols-1 gap-3 text-xs sm:grid-cols-2 sm:text-sm">
+                      <div className="mb-2 space-y-2">
+                        <div className="grid grid-cols-1 gap-2 text-xs sm:grid-cols-2 sm:text-xs">
                           <div>
                             <span className="text-card-foreground font-medium">
                               {t("coffee.details.location")}:
@@ -213,7 +218,7 @@ export function CoffeeShopSideSheet({
                       </div>
 
                       <Button
-                        className="w-full text-sm sm:text-base"
+                        className="h-8 w-full text-xs sm:h-9 sm:text-sm"
                         onClick={() => onMintPoap(coffee, shop)}
                       >
                         {t("actions.mintPoap")}
