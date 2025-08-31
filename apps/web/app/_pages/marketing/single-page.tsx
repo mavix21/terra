@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@terra/ui/components/button";
 
@@ -37,6 +38,7 @@ const slides = [
 export default function SinglePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const router = useRouter();
 
   // Auto-cycle through slides
   useEffect(() => {
@@ -98,6 +100,13 @@ export default function SinglePage() {
               <Button
                 size="lg"
                 className="bg-white px-8 py-3 text-lg font-medium text-black transition-all duration-300 hover:bg-white/90"
+                onClick={() => {
+                  if (slide.role === "producer" || slide.role === "coffee-shop") {
+                    router.push("/auth/sign-in");
+                  } else if (slide.role === "consumer") {
+                    router.push("/consumer");
+                  }
+                }}
               >
                 {slide.buttonText}
               </Button>
