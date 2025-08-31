@@ -17,7 +17,7 @@ const authMiddleware = auth((req) => {
   if (reqUrl.pathname !== "/") {
     return NextResponse.redirect(
       new URL(
-        `${BASE_URL}/?callbackUrl=${encodeURIComponent(reqUrl.pathname)}`,
+        `${BASE_URL}/auth/sign-in?callbackUrl=${encodeURIComponent(reqUrl.pathname)}`,
         req.url,
       ),
     );
