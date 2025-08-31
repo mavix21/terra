@@ -18,14 +18,14 @@ export const columns: ColumnDef<Product>[] = [
     header: "IMAGE",
     cell: ({ row }) => {
       return (
-        <div className="relative aspect-square">
+        <div className="relative aspect-square h-16 w-16 overflow-hidden sm:h-20 sm:w-20">
           <Image
             src={row.getValue("photo_url")}
             alt={row.getValue("name")}
             fill
             unoptimized
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="rounded-lg"
+            className="rounded-lg object-cover"
           />
         </div>
       );
