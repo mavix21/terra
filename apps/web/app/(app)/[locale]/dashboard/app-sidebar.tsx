@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { usePathname } from "next/navigation";
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import {
   IconChevronRight,
@@ -41,7 +40,7 @@ import { Icons } from "@terra/ui/icons";
 
 import { useProfile } from "@/app/(app)/_providers";
 import { buyerNavItems, producerNavItems } from "@/shared/data/nav-items";
-import { Link } from "@/shared/i18n";
+import { Link, usePathname } from "@/shared/i18n";
 import { OrgSwitcher } from "@/shared/ui/org-switcher";
 import { UserAvatarProfile } from "@/shared/ui/user-avatar-profile";
 

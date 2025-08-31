@@ -69,6 +69,7 @@ export const createMicrolot = mutation({
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
+    console.log("identity", identity);
     if (!identity) {
       throw new Error("Unauthorized");
     }
@@ -77,5 +78,85 @@ export const createMicrolot = mutation({
       ...args.microlot,
       producerId,
     });
+  },
+});
+
+export const listMicrolotsByOthersPaginated = query({
+  args: {
+    page: v.number(),
+    limit: v.number(),
+  },
+  handler: async (ctx, { page, limit }) => {
+    const identity = await ctx.auth.getUserIdentity();
+    const currentUserId = identity ? (identity.subject as Id<"users">) : null;
+    console.log("currentUserId", currentUserId);
+
+    const safePage = Math.max(1, page);
+    const safeLimit = Math.max(1, Math.min(limit, 100));
+
+    const desiredStartIndex = (safePage - 1) * safeLimit;
+
+    let seenNonSelf = 0;
+    const collected: Array<{
+      _id: Id<"microlots">;
+      _creationTime: number;
+      tokenId: number;
+      producerId: Id<"users">;
+      variety: string;
+      altitude: number;
+      harvestDate: string;
+      processingMethod: string;
+      description: string;
+      family: string;
+      estate: string;
+      totalSupply: number;
+      image?: Id<"_storage">;
+      pricePerTokenEth: number;
+      metadataURI: string;
+    }> = [];
+
+    let cursor: string | null = null;
+    let result = await ctx.db
+      .query("microlots")
+      .withIndex("by_tokenId")
+      .paginate({ numItems: safeLimit, cursor });
+
+    while (true) {
+      for (const doc of result.page) {
+        if (currentUserId && doc.producerId === currentUserId) continue;
+        if (seenNonSelf >= desiredStartIndex && collected.length < safeLimit) {
+          collected.push(doc);
+        }
+        seenNonSelf += 1;
+        if (collected.length >= safeLimit) break;
+      }
+      if (collected.length >= safeLimit || result.isDone) break;
+      result = await ctx.db
+        .query("microlots")
+        .withIndex("by_tokenId")
+        .paginate({ numItems: safeLimit, cursor: result.continueCursor });
+    }
+
+    const itemsWithUrls = await Promise.all(
+      collected.map(async (m) => {
+        const imageUrl = m.image ? await ctx.storage.getUrl(m.image) : null;
+        return { ...m, imageUrl };
+      }),
+    );
+
+    const totalAll = (
+      await ctx.db.query("microlots").withIndex("by_tokenId").collect()
+    ).length;
+    const totalOwn = currentUserId
+      ? (
+          await ctx.db
+            .query("microlots")
+            .withIndex("by_producer", (q) => q.eq("producerId", currentUserId))
+            .collect()
+        ).length
+      : 0;
+    const total = totalAll - totalOwn;
+
+    return { items: itemsWithUrls, total };
   },
 });
