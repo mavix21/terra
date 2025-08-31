@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 
 import { Button } from "@terra/ui/components/button";
+
+import { Link } from "@/app/_shared/i18n";
 
 const slides = [
   {
@@ -38,7 +39,6 @@ const slides = [
 export default function SinglePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const router = useRouter();
 
   // Auto-cycle through slides
   useEffect(() => {
@@ -97,19 +97,16 @@ export default function SinglePage() {
               <p className="mx-auto mb-8 max-w-3xl text-lg font-light text-pretty text-white/90 sm:text-xl lg:text-2xl">
                 {slide.subtitle}
               </p>
-              <Button
-                size="lg"
-                className="bg-white px-8 py-3 text-lg font-medium text-black transition-all duration-300 hover:bg-white/90"
-                onClick={() => {
-                  if (slide.role === "producer" || slide.role === "coffee-shop") {
-                    router.push("/auth/sign-in");
-                  } else if (slide.role === "consumer") {
-                    router.push("/consumer");
-                  }
-                }}
+              <Link
+                href={slide.role === "consumer" ? "/consumer" : "/auth/sign-in"}
               >
-                {slide.buttonText}
-              </Button>
+                <Button
+                  size="lg"
+                  className="bg-white px-8 py-3 text-lg font-medium text-black transition-all duration-300 hover:bg-white/90"
+                >
+                  {slide.buttonText}
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
